@@ -6,4 +6,7 @@
     <color name="primary_color">#FF000000</color>
     <color name="secondary_color">#05b4e3</color>
     <color name="secondary_light_color">#2bbbd1</color>
+
+    <color name="placeholder">#d7d7d7</color>
+
 </resources>

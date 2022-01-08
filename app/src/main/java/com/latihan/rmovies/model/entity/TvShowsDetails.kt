@@ -2,21 +2,19 @@ package com.latihan.rmovies.model.entity
 
 import com.google.gson.annotations.SerializedName
 
-data class Item(
+data class TvShowDetails (
+
     @SerializedName("id")
     val id: Int,
-
-    @SerializedName("title")
-    val title: String?,
 
     @SerializedName("name")
     val name: String?,
 
+    @SerializedName("first_air_date")
+    val firstAirDate: String?,
+
     @SerializedName("overview")
     val overview: String?,
-
-    @SerializedName("release_date")
-    val releasedDate: String?,
 
     @SerializedName("vote_average")
     val voteAverage: Double?,
@@ -26,5 +24,4 @@ data class Item(
 
     @SerializedName("backdrop_path")
     val backdropPath: String?
-
 )

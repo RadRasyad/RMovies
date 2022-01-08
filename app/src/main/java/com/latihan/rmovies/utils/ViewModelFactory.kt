@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.latihan.rmovies.di.Injection
 import com.latihan.rmovies.model.DataRepository
 import com.latihan.rmovies.ui.movies.MoviesViewModel
+import com.latihan.rmovies.ui.tvshows.TvShowsViewModel
 
 class ViewModelFactory(private val dataRepository: DataRepository): ViewModelProvider.NewInstanceFactory() {
     companion object{
@@ -26,6 +27,8 @@ class ViewModelFactory(private val dataRepository: DataRepository): ViewModelPro
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when{
             modelClass.isAssignableFrom(MoviesViewModel::class.java) -> MoviesViewModel(dataRepository) as T
+
+            modelClass.isAssignableFrom(TvShowsViewModel::class.java) -> TvShowsViewModel(dataRepository) as T
 
             else -> throw IllegalArgumentException("Unknown ViewModel: " + modelClass.name)
         }
