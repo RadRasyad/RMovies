@@ -1,6 +1,7 @@
 package com.latihan.rmovies.model
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.latihan.rmovies.model.entity.Item
 import com.latihan.rmovies.model.entity.TvShowDetails
 import com.latihan.rmovies.model.remote.DataSource
@@ -22,7 +23,15 @@ class DataRepository(private val remoteRepository: RemoteRepository): DataSource
         }
     }
 
-    override fun getMovies() = remoteRepository.getMovies()
+    override fun getMovies(): LiveData<List<Item>> {
+        val movieResults = MutableLiveData<List<Item>>()
+        remoteRepository.getMovies(object : RemoteRepository.GetMoviesCallback {
+            override fun onResponse(movies: List<Item>) {
+                movieResults.postValue(movies)
+            }
+        })
+        return movieResults
+    }
 
     override fun getTvShows() = remoteRepository.getTvShows()
 

@@ -18,9 +18,11 @@ class RemoteRepository {
     private val apiConfig = ApiConfig
     private var handler = Handler(Looper.getMainLooper())
 
-    fun getMovies(): LiveData<List<Item>> {
-        val listMovies = MutableLiveData<List<Item>>()
+    interface GetMoviesCallback {
+        fun onResponse(movies: List<Item>)
+    }
 
+    fun getMovies(callback: GetMoviesCallback) {
         EspressoIdlingResource.increment()
         handler.postDelayed({
             apiConfig.create().getMovies(apiKey).enqueue(object : Callback<ItemResponse> {
@@ -28,18 +30,16 @@ class RemoteRepository {
                     call: Call<ItemResponse>,
                     response: Response<ItemResponse>
                 ) {
-                    listMovies.value = response.body()?.list
+                    response.body()?.list?.let { callback.onResponse(it) }
                     EspressoIdlingResource.decrement()
                 }
 
                 override fun onFailure(call: Call<ItemResponse>, t: Throwable) {
 
                 }
-
             })
 
         }, delay)
-        return listMovies
     }
 
     fun getDetailMovie(moviesId: String): LiveData<Item> {
