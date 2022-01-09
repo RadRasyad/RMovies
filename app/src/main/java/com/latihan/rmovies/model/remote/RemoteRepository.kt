@@ -22,6 +22,18 @@ class RemoteRepository {
         fun onResponse(movies: List<Item>)
     }
 
+    interface GetDetailMovieCallback {
+        fun onResponse(detailMovieResponse: Item)
+    }
+
+    interface GetTvShowsCallback {
+        fun onResponse(shows: List<Item>)
+    }
+
+    interface GetDetailShowCallback {
+        fun onResponse(detailShowResponse: TvShowDetails)
+    }
+
     fun getMovies(callback: GetMoviesCallback) {
         EspressoIdlingResource.increment()
         handler.postDelayed({
@@ -42,14 +54,12 @@ class RemoteRepository {
         }, delay)
     }
 
-    fun getDetailMovie(moviesId: String): LiveData<Item> {
-        val detailMovie = MutableLiveData<Item>()
-
+    fun getDetailMovie(moviesId: String, callback: GetDetailMovieCallback) {
         EspressoIdlingResource.increment()
         handler.postDelayed({
             apiConfig.create().getDetailsMovie(moviesId, apiKey).enqueue(object : Callback<Item> {
                 override fun onResponse(call: Call<Item>, response: Response<Item>) {
-                    detailMovie.value = response.body()
+                    response.body()?.let { callback.onResponse(it) }
                     EspressoIdlingResource.decrement()
                 }
 
@@ -58,13 +68,9 @@ class RemoteRepository {
                 }
             })
         }, delay)
-
-        return detailMovie
     }
 
-    fun getTvShows(): LiveData<List<Item>> {
-        val listShows = MutableLiveData<List<Item>>()
-
+    fun getTvShows(callback: GetTvShowsCallback) {
         EspressoIdlingResource.increment()
         handler.postDelayed({
             apiConfig.create().getTvShows(apiKey).enqueue(object : Callback<ItemResponse> {
@@ -72,22 +78,19 @@ class RemoteRepository {
                     call: Call<ItemResponse>,
                     response: Response<ItemResponse>
                 ) {
-                    listShows.value = response.body()?.list
+                    response.body()?.list?.let { callback.onResponse(it) }
                     EspressoIdlingResource.decrement()
                 }
 
                 override fun onFailure(call: Call<ItemResponse>, t: Throwable) {
 
                 }
-
             })
-        }, delay)
 
-        return listShows
+        }, delay)
     }
 
-    fun getDetailShow(showsId: String): LiveData<TvShowDetails> {
-        val detailShow = MutableLiveData<TvShowDetails>()
+    fun getDetailShow(showsId: String, callback: GetDetailShowCallback) {
 
         EspressoIdlingResource.increment()
         handler.postDelayed({
@@ -97,7 +100,7 @@ class RemoteRepository {
                         call: Call<TvShowDetails>,
                         response: Response<TvShowDetails>
                     ) {
-                        detailShow.value = response.body()
+                        response.body()?.let { callback.onResponse(it) }
                         EspressoIdlingResource.decrement()
                     }
 
@@ -107,7 +110,6 @@ class RemoteRepository {
                 })
         }, delay)
 
-        return detailShow
     }
 
 

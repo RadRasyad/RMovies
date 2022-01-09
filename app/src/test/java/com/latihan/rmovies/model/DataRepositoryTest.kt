@@ -5,8 +5,8 @@ import com.latihan.rmovies.model.remote.RemoteRepository
 import com.latihan.rmovies.repository.FakeDataRepository
 import com.latihan.rmovies.utils.DummyData
 import com.latihan.rmovies.utils.LiveDataTestUtil
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNotNull
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.*
@@ -21,7 +21,7 @@ class DataRepositoryTest {
     private val dataRepositoryTest = FakeDataRepository(remoteRepository)
 
     private val movieList = DummyData.getDummyRemoteMovies()
-    private val movieId = DummyData.getDummyRemoteMovies()[0].id.toString()
+    private val movieId = movieList[0].id.toString()
     private val tvShowsList = DummyData.getDummyRemoteTvShows()
     private val showId = DummyData.getDummyRemoteTvShows()[0].id.toString()
     private val tvShowDetails = DummyData.getTvShowDetail()
@@ -34,7 +34,8 @@ class DataRepositoryTest {
         doAnswer { invocation ->
             (invocation.arguments[0] as RemoteRepository.GetMoviesCallback).onResponse(movieList)
             null
-        }.`when`(remoteRepository).getMovies(anyOfGeneric(RemoteRepository.GetMoviesCallback::class.java))
+        }.`when`(remoteRepository)
+            .getMovies(anyOfGeneric(RemoteRepository.GetMoviesCallback::class.java))
 
         val moviesEntity = LiveDataTestUtil.getValue(dataRepositoryTest.getMovies())
         verify(remoteRepository).getMovies(anyOfGeneric(RemoteRepository.GetMoviesCallback::class.java))
@@ -44,12 +45,61 @@ class DataRepositoryTest {
     }
 
     @Test
-    fun testGetTvShows() {}
+    fun testGetTvShows() {
+        doAnswer { invocation ->
+            (invocation.arguments[0] as RemoteRepository.GetTvShowsCallback).onResponse(tvShowsList)
+            null
+        }.`when`(remoteRepository)
+            .getTvShows(anyOfGeneric(RemoteRepository.GetTvShowsCallback::class.java))
+
+        val showsEntity = LiveDataTestUtil.getValue(dataRepositoryTest.getTvShows())
+        verify(remoteRepository).getTvShows(anyOfGeneric(RemoteRepository.GetTvShowsCallback::class.java))
+        assertNotNull(showsEntity)
+        assertEquals(tvShowsList.size.toLong(), showsEntity.size.toLong())
+
+    }
 
     @Test
-    fun testGetMovieDetail() {}
+    fun testGetMovieDetail() {
+        doAnswer { invocation ->
+            (invocation.arguments[0] as RemoteRepository.GetDetailMovieCallback).onResponse(
+                movieList[0]
+            )
+            null
+        }.`when`(remoteRepository).getDetailMovie(
+            eqOfGeneric(movieId),
+            anyOfGeneric(RemoteRepository.GetDetailMovieCallback::class.java)
+        )
+
+        val detailEntity =
+            LiveDataTestUtil.getValue(dataRepositoryTest.getMovieDetail(eqOfGeneric(movieId)))
+        verify(remoteRepository).getDetailMovie(
+            eqOfGeneric(movieId), anyOfGeneric(RemoteRepository.GetDetailMovieCallback::class.java)
+        )
+        assertNotNull(detailEntity)
+        assertEquals(movieId, detailEntity)
+
+    }
 
     @Test
-    fun testGetTvShowDetail() {}
+    fun testGetTvShowDetail() {
+        doAnswer { invocation ->
+            (invocation.arguments[0] as RemoteRepository.GetDetailShowCallback).onResponse(
+                tvShowDetails
+            )
+            null
+        }.`when`(remoteRepository).getDetailShow(
+            eqOfGeneric(showId),
+            anyOfGeneric(RemoteRepository.GetDetailShowCallback::class.java)
+        )
+        /*
+        val detailEntity = LiveDataTestUtil.getValue(dataRepositoryTest.getMovieDetail(eqOfGeneric(showId)))
+
+        verify(remoteRepository).getDetailShow(eqOfGeneric(showId), anyOfGeneric(RemoteRepository.GetDetailShowCallback::class.java))
+
+        assertNotNull(detailEntity)
+
+         */
+    }
 
 }

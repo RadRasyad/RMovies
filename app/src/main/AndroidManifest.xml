@@ -10,12 +10,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_movies_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.RMovies">
+        android:theme="@style/Theme.RMovies"
+        android:fullBackupContent="">
 
         <activity
             android:name=".ui.detail.DetailActivity"
             android:exported="false"
-            android:theme="@style/Theme.RMovies.NoActionBar" />
+            android:theme="@style/Theme.RMovies.Detail" />
 
         <activity
             android:name=".ui.main.MainActivity"

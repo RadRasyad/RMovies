@@ -25,7 +25,7 @@
                 android:layout_height="match_parent"
                 android:elevation="0dp"
                 android:scaleType="matrix"
-                tools:src="@drawable/poster_alita"
+                tools:src="@drawable/placeholder"
                 android:contentDescription="@string/tv_shows_poster" />
 
             <androidx.appcompat.widget.Toolbar
@@ -54,6 +54,7 @@
                 android:layout_width="100dp"
                 android:layout_height="150dp"
                 android:layout_marginStart="16dp"
+                android:backgroundTint="@color/placeholder"
                 android:elevation="16dp"
                 app:cardCornerRadius="15dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +65,7 @@
                     android:layout_width="100dp"
                     android:layout_height="150dp"
                     android:contentDescription="@string/content_desc_iv_movies"
-                    tools:src="@drawable/poster_alita" />
+                    tools:src="@drawable/placeholder" />
 
             </androidx.cardview.widget.CardView>
 

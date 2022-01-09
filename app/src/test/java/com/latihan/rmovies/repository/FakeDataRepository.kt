@@ -19,10 +19,36 @@ class FakeDataRepository(private val remoteRepository: RemoteRepository): DataSo
         return movieResults
     }
 
-    override fun getTvShows() = remoteRepository.getTvShows()
+    override fun getTvShows(): LiveData<List<Item>> {
+        val showResults = MutableLiveData<List<Item>>()
+        remoteRepository.getTvShows(object : RemoteRepository.GetTvShowsCallback {
+            override fun onResponse(shows: List<Item>) {
+                showResults.postValue(shows)
+            }
+        })
+        return showResults
+    }
 
-    override fun getMovieDetail(movieId: String): LiveData<Item> = remoteRepository.getDetailMovie(movieId)
+    override fun getMovieDetail(movieId: String): LiveData<Item> {
+        val detailMovie = MutableLiveData<Item>()
+        remoteRepository.getDetailMovie(movieId, object: RemoteRepository.GetDetailMovieCallback{
+            override fun onResponse(detailMovieResponse: Item) {
+                detailMovie.postValue(detailMovieResponse)
+            }
 
-    override fun getTvShowDetail(tvShowId: String): LiveData<TvShowDetails> = remoteRepository.getDetailShow(tvShowId)
+        })
+        return detailMovie
+    }
+
+    override fun getTvShowDetail(tvShowId: String): LiveData<TvShowDetails> {
+        val detailShow = MutableLiveData<TvShowDetails>()
+        remoteRepository.getDetailShow(tvShowId, object: RemoteRepository.GetDetailShowCallback{
+            override fun onResponse(detailShowResponse: TvShowDetails) {
+                detailShow.postValue(detailShowResponse)
+            }
+
+        })
+        return detailShow
+    }
 
 }

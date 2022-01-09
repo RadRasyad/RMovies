@@ -25,4 +25,10 @@
         <item name="android:background">@color/primary_color</item>
     </style>
 
+    <style name="Theme.RMovies.Detail">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/placeholder</item>
+    </style>
+
 </resources>

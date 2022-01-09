@@ -1,10 +1,8 @@
 package com.latihan.rmovies.ui.adapter
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.latihan.rmovies.R
@@ -38,10 +36,10 @@ class MoviesAdapter: RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
         fun bindViewHolder(listMovies: Item) {
             binding.tvTitle.text = listMovies.title
             binding.tvStarRate.text = listMovies.voteAverage.toString()
-            Log.d("load rv", listMovies.id.toString())
             Glide.with(itemView.context)
                 .load("https://image.tmdb.org/t/p/w500${listMovies.posterPath}")
                 .placeholder(R.color.placeholder)
+                .error(R.drawable.ic_error)
                 .into(poster)
 
             itemView.setOnClickListener {

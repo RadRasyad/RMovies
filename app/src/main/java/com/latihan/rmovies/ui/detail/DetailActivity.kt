@@ -64,8 +64,8 @@ class DetailActivity : AppCompatActivity() {
         val factory = ViewModelFactory.getInstance(this)
         val showsViewModel = ViewModelProviders.of(this, factory)[TvShowsViewModel::class.java]
 
-        progressBar(true)
         showsViewModel.getDetailShow(shows).observe(this, Observer {
+            progressBar(true)
             loadDataShow(it)
             progressBar(false)
         })
@@ -93,7 +93,7 @@ class DetailActivity : AppCompatActivity() {
             mtitleValue.text = shows?.name
             mreleaseValue.text = shows?.firstAirDate
             mstarValue.text = shows?.voteAverage.toString()
-            moverviewValue.text = shows?.overview
+            moverviewValue.text = shows?.overview ?: "No overview yet"
             if (shows?.backdropPath!=null) {
                 binding.mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${shows.backdropPath}")
             }
@@ -118,7 +118,8 @@ class DetailActivity : AppCompatActivity() {
     fun ImageView.loadImage(url: String?) {
         Glide.with(this.context)
             .load(url)
-            .placeholder(R.color.placeholder)
+            .placeholder(R.drawable.placeholder)
+            .error(R.drawable.ic_error)
             .centerCrop()
             .into(this)
     }
