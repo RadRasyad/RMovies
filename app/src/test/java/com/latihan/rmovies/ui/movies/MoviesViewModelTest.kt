@@ -6,26 +6,25 @@ import androidx.lifecycle.Observer
 import com.latihan.rmovies.model.DataRepository
 import com.latihan.rmovies.model.entity.Item
 import com.latihan.rmovies.utils.DummyData
-import junit.framework.TestCase
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class MoviesViewModelTest : TestCase() {
+class MoviesViewModelTest {
+
+    private var viewModel: MoviesViewModel? = null
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private var viewModel: MoviesViewModel? = null
-
     @Mock
-    private lateinit var dataRepository :DataRepository
+    private lateinit var dataRepository: DataRepository
 
     @Mock
     private lateinit var observer: Observer<List<Item>>
@@ -34,7 +33,7 @@ class MoviesViewModelTest : TestCase() {
     private lateinit var observerDetail: Observer<Item>
 
     @Before
-    public override fun setUp() {
+    fun setUp() {
         viewModel = MoviesViewModel(dataRepository)
     }
 
@@ -42,24 +41,45 @@ class MoviesViewModelTest : TestCase() {
     fun testGetMovies() {
         val movies = MutableLiveData<List<Item>>()
         movies.value = DummyData.getDummyRemoteMovies()
-        `when`(dataRepository.getMovies()).thenReturn(movies)
+        lenient().`when`(dataRepository.getMovies()).thenReturn(movies)
         viewModel?.movies?.observeForever(observer)
         verify(dataRepository).getMovies()
+        verify(observer).onChanged(movies.value)
     }
 
     @Test
     fun testGetDetailMovie() {
         val movies = MutableLiveData<Item>()
         movies.value = DummyData.getDummyRemoteMovies()[0]
+
         `when`(dataRepository.getMovieDetail(movies.value!!.id.toString())).thenReturn(movies)
         viewModel?.getDetailMovie(movies.value!!.id.toString())?.observeForever(observerDetail)
         verify(dataRepository).getMovies()
+        verify(observerDetail).onChanged(movies.value)
 
-        assertEquals(movies.value!!.id, viewModel?.getDetailMovie(movies.value!!.id.toString())?.value?.id)
-        assertEquals(movies.value!!.title, viewModel?.getDetailMovie(movies.value!!.id.toString())?.value?.title)
-        assertEquals(movies.value!!.overview, viewModel?.getDetailMovie(movies.value!!.id.toString())?.value?.overview)
-        assertEquals(movies.value!!.releasedDate, viewModel?.getDetailMovie(movies.value!!.id.toString())?.value?.releasedDate)
-        assertEquals(movies.value!!.posterPath, viewModel?.getDetailMovie(movies.value!!.id.toString())?.value?.posterPath)
-        assertEquals(movies.value!!.backdropPath, viewModel?.getDetailMovie(movies.value!!.id.toString())?.value?.backdropPath)
+        assertEquals(
+            movies.value!!.id,
+            viewModel?.getDetailMovie(movies.value!!.id.toString())?.value?.id
+        )
+        assertEquals(
+            movies.value!!.title,
+            viewModel?.getDetailMovie(movies.value!!.id.toString())?.value?.title
+        )
+        assertEquals(
+            movies.value!!.overview,
+            viewModel?.getDetailMovie(movies.value!!.id.toString())?.value?.overview
+        )
+        assertEquals(
+            movies.value!!.releasedDate,
+            viewModel?.getDetailMovie(movies.value!!.id.toString())?.value?.releasedDate
+        )
+        assertEquals(
+            movies.value!!.posterPath,
+            viewModel?.getDetailMovie(movies.value!!.id.toString())?.value?.posterPath
+        )
+        assertEquals(
+            movies.value!!.backdropPath,
+            viewModel?.getDetailMovie(movies.value!!.id.toString())?.value?.backdropPath
+        )
     }
 }

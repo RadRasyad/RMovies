@@ -37,8 +37,7 @@ class DetailActivity : AppCompatActivity() {
             val idShow = extras.getString(EXTRA_SHOW)
             if (idMovie != null) {
                 getDetailMovie(idMovie)
-            }
-            else {
+            } else {
                 if (idShow != null) {
                     getDetailShow(idShow)
                 }
@@ -50,7 +49,6 @@ class DetailActivity : AppCompatActivity() {
 
         val factory = ViewModelFactory.getInstance(this)
         val moviesViewModel = ViewModelProviders.of(this, factory)[MoviesViewModel::class.java]
-
 
         moviesViewModel.getDetailMovie(movie).observe(this, Observer {
             progressBar(true)
@@ -78,7 +76,7 @@ class DetailActivity : AppCompatActivity() {
             mreleaseValue.text = movie?.releasedDate
             mstarValue.text = movie?.voteAverage.toString()
             moverviewValue.text = movie?.overview
-            if (movie?.backdropPath==null) {
+            if (movie?.backdropPath == null) {
                 binding.mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${movie?.posterPath}")
             }
             binding.mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${movie?.backdropPath}")
@@ -94,10 +92,11 @@ class DetailActivity : AppCompatActivity() {
             mreleaseValue.text = shows?.firstAirDate
             mstarValue.text = shows?.voteAverage.toString()
             moverviewValue.text = shows?.overview ?: "No overview yet"
-            if (shows?.backdropPath!=null) {
+            if (shows?.backdropPath != null) {
                 binding.mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${shows.backdropPath}")
+            } else {
+                binding.mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${shows?.posterPath}")
             }
-            binding.mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${shows?.posterPath}")
             binding.mivPoster.loadImage("https://image.tmdb.org/t/p/w500${shows?.posterPath}")
         }
 
@@ -107,8 +106,7 @@ class DetailActivity : AppCompatActivity() {
         if (!state) {
             binding.progressBar.visibility = View.GONE
             binding.detailView.visibility = View.VISIBLE
-        }
-        else {
+        } else {
             binding.progressBar.visibility = View.VISIBLE
             binding.detailView.visibility = View.GONE
         }

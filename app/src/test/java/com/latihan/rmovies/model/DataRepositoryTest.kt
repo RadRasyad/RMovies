@@ -14,15 +14,14 @@ import org.mockito.Mockito.mock
 
 class DataRepositoryTest {
 
-    @Rule
-    @JvmField
+    @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private val remoteRepository = mock(RemoteRepository::class.java)
     private val dataRepositoryTest = FakeDataRepository(remoteRepository)
 
     private val movieList = DummyData.getDummyRemoteMovies()
-    private val movieId = movieList[0].id.toString()
+    private val movieId = DummyData.getDummyRemoteMovies()[0].id.toString()
     private val movieDetails = DummyData.getMovieDetail()
     private val tvShowsList = DummyData.getDummyRemoteTvShows()
     private val showId = DummyData.getDummyRemoteTvShows()[0].id.toString()
@@ -93,6 +92,7 @@ class DataRepositoryTest {
             any()
         )
         val detailEntity = LiveDataTestUtil.getValue(dataRepositoryTest.getTvShowDetail(showId))
+        println(detailEntity)
         verify(remoteRepository).getDetailShow(eq(showId), any())
         assertNotNull(detailEntity)
         assertEquals(tvShowDetails.name, detailEntity.name)

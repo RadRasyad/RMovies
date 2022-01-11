@@ -10,16 +10,16 @@ import com.latihan.rmovies.databinding.ItemRowBinding
 import com.latihan.rmovies.model.entity.Item
 import com.latihan.rmovies.ui.detail.DetailActivity
 
-class MoviesAdapter: RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
+class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
     private var listMovies: List<Item> = emptyList()
 
-    fun moviesAdapter(movies: List<Item>){
+    fun moviesAdapter(movies: List<Item>) {
         this.listMovies = movies
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder{
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
@@ -30,7 +30,8 @@ class MoviesAdapter: RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
         holder.bindViewHolder(listMovies[position])
     }
 
-    inner class ViewHolder(private val binding: ItemRowBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemRowBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         val poster = binding.ivPoster
 
         fun bindViewHolder(listMovies: Item) {

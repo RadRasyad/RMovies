@@ -103,7 +103,13 @@ class MainActivityTest : TestCase() {
         onView(withId(R.id.mstar_value)).check(matches(isDisplayed()))
         onView(withId(R.id.mstar_value)).check(matches(withText(dummyShow.voteAverage.toString())))
         onView(withId(R.id.moverview_value)).check(matches(isDisplayed()))
-        onView(withId(R.id.moverview_value)).check(matches(withText(dummyShow.overview)))
+        onView(withId(R.id.moverview_value)).check(
+            matches(
+                withText(
+                    dummyShow.overview ?: "No overview yet"
+                )
+            )
+        )
         onView(withId(R.id.miv_poster)).check(matches(isDisplayed()))
         onView(withId(R.id.mbackdrop_poster)).check(matches(isDisplayed()))
 

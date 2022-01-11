@@ -2,8 +2,6 @@ package com.latihan.rmovies.model.remote
 
 import android.os.Handler
 import android.os.Looper
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.latihan.rmovies.BuildConfig
 import com.latihan.rmovies.model.entity.Item
 import com.latihan.rmovies.model.entity.TvShowDetails
@@ -47,11 +45,11 @@ class RemoteRepository {
                 }
 
                 override fun onFailure(call: Call<ItemResponse>, t: Throwable) {
-
+                    EspressoIdlingResource.decrement()
                 }
             })
 
-        }, delay)
+        }, Companion.delay)
     }
 
     fun getDetailMovie(moviesId: String, callback: GetDetailMovieCallback) {
@@ -64,10 +62,10 @@ class RemoteRepository {
                 }
 
                 override fun onFailure(call: Call<Item>, t: Throwable) {
-
+                    EspressoIdlingResource.decrement()
                 }
             })
-        }, delay)
+        }, Companion.delay)
     }
 
     fun getTvShows(callback: GetTvShowsCallback) {
@@ -83,11 +81,11 @@ class RemoteRepository {
                 }
 
                 override fun onFailure(call: Call<ItemResponse>, t: Throwable) {
-
+                    EspressoIdlingResource.decrement()
                 }
             })
 
-        }, delay)
+        }, Companion.delay)
     }
 
     fun getDetailShow(showsId: String, callback: GetDetailShowCallback) {
@@ -105,10 +103,10 @@ class RemoteRepository {
                     }
 
                     override fun onFailure(call: Call<TvShowDetails>, t: Throwable) {
-
+                        EspressoIdlingResource.decrement()
                     }
                 })
-        }, delay)
+        }, Companion.delay)
 
     }
 
@@ -116,12 +114,13 @@ class RemoteRepository {
     companion object {
         const val apiKey = BuildConfig.API_KEY
         private var instance: RemoteRepository? = null
-        private const val delay: Long = 1500
 
         fun getInstance(): RemoteRepository =
             instance ?: synchronized(this) {
                 instance ?: RemoteRepository()
             }
+
+        private const val delay: Long = 1500
     }
 
 }

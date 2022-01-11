@@ -38,6 +38,20 @@ object DummyData {
             Item(19, "", "", "", "", 0.0, "", "")
         )
 
+    fun getMovieDetail() =
+        Item(
+            634649,
+
+            "Spider-Man: No Way Home",
+            "",
+            "Peter Parker is unmasked and no longer able to separate his normal life from the high-stakes of being a super-hero." +
+                    " When he asks for help from Doctor Strange the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man.",
+            "2021-12-15",
+            8.4,
+            "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+            "/3G1Q5xF40HkUBJXxt2DQgQzKTp5.jpg"
+        )
+
     fun getDummyRemoteTvShows(): List<Item> =
         arrayListOf(
             Item(

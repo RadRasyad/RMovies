@@ -12,7 +12,6 @@ import com.latihan.rmovies.databinding.FragmentTvShowsBinding
 import com.latihan.rmovies.ui.adapter.TvShowsAdapter
 import com.latihan.rmovies.utils.ViewModelFactory
 
-
 class TvShowsFragment : Fragment() {
     private var _binding: FragmentTvShowsBinding? = null
     private val binding get() = _binding
@@ -34,15 +33,16 @@ class TvShowsFragment : Fragment() {
 
     private fun getShows() {
 
-        if (activity!=null) {
+        if (activity != null) {
             progressBar(true)
             val factory = ViewModelFactory.getInstance(requireActivity())
-            val tvShowsViewModel = ViewModelProviders.of(requireActivity(), factory)[TvShowsViewModel::class.java]
+            val tvShowsViewModel =
+                ViewModelProviders.of(requireActivity(), factory)[TvShowsViewModel::class.java]
             tvShowsViewModel.shows.observe(viewLifecycleOwner, Observer {
                 adapter.showsAdapter(it)
                 progressBar(false)
             })
-            with(binding?.rvShows){
+            with(binding?.rvShows) {
                 this?.layoutManager = LinearLayoutManager(context)
                 this?.adapter = adapter
                 this?.setHasFixedSize(true)
