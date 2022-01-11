@@ -27,10 +27,10 @@ class MoviesViewModelTest {
     private lateinit var dataRepository: DataRepository
 
     @Mock
-    private lateinit var observer: Observer<List<Item>>
+    private lateinit var observerDetail: Observer<Item>
 
     @Mock
-    private lateinit var observerDetail: Observer<Item>
+    private lateinit var observer: Observer<List<Item>>
 
     @Before
     fun setUp() {
@@ -41,8 +41,9 @@ class MoviesViewModelTest {
     fun testGetMovies() {
         val movies = MutableLiveData<List<Item>>()
         movies.value = DummyData.getDummyRemoteMovies()
+
         lenient().`when`(dataRepository.getMovies()).thenReturn(movies)
-        viewModel?.movies?.observeForever(observer)
+        viewModel?.getListMovies()?.observeForever(observer)
         verify(dataRepository).getMovies()
         verify(observer).onChanged(movies.value)
     }
@@ -53,8 +54,8 @@ class MoviesViewModelTest {
         movies.value = DummyData.getDummyRemoteMovies()[0]
 
         `when`(dataRepository.getMovieDetail(movies.value!!.id.toString())).thenReturn(movies)
-        viewModel?.getDetailMovie(movies.value!!.id.toString())?.observeForever(observerDetail)
-        verify(dataRepository).getMovies()
+        viewModel?.getDetailMovie(movies.value?.id.toString())?.observeForever(observerDetail)
+        verify(dataRepository).getMovieDetail(movies.value?.id.toString())
         verify(observerDetail).onChanged(movies.value)
 
         assertEquals(

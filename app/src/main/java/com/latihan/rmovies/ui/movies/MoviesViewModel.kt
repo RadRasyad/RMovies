@@ -7,7 +7,7 @@ import com.latihan.rmovies.model.entity.Item
 
 class MoviesViewModel(private val dataRepository: DataRepository) : ViewModel() {
 
-    val movies: LiveData<List<Item>> = dataRepository.getMovies()
+    fun getListMovies(): LiveData<List<Item>> = dataRepository.getMovies()
 
     fun getDetailMovie(movieId: String): LiveData<Item> = dataRepository.getMovieDetail(movieId)
 

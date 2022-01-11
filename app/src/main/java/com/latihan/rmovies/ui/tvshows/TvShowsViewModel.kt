@@ -8,7 +8,7 @@ import com.latihan.rmovies.model.entity.TvShowDetails
 
 class TvShowsViewModel(private val dataRepository: DataRepository) : ViewModel() {
 
-    val shows: LiveData<List<Item>> = dataRepository.getTvShows()
+    fun getListShows(): LiveData<List<Item>> = dataRepository.getTvShows()
 
     fun getDetailShow(showsId: String): LiveData<TvShowDetails> =
         dataRepository.getTvShowDetail(showsId)

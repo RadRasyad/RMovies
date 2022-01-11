@@ -38,7 +38,7 @@ class TvShowsFragment : Fragment() {
             val factory = ViewModelFactory.getInstance(requireActivity())
             val tvShowsViewModel =
                 ViewModelProviders.of(requireActivity(), factory)[TvShowsViewModel::class.java]
-            tvShowsViewModel.shows.observe(viewLifecycleOwner, Observer {
+            tvShowsViewModel.getListShows().observe(viewLifecycleOwner, Observer {
                 adapter.showsAdapter(it)
                 progressBar(false)
             })

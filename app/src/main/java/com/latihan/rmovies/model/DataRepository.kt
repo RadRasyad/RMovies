@@ -9,20 +9,6 @@ import com.latihan.rmovies.model.remote.RemoteRepository
 
 class DataRepository(private val remoteRepository: RemoteRepository): DataSource {
 
-    companion object {
-        private var instance: DataRepository? = null
-
-        fun getInstance(remoteRepository: RemoteRepository): DataRepository {
-
-            synchronized(DataRepository::class.java) {
-                if (instance == null) {
-                    instance = DataRepository(remoteRepository)
-                }
-            }
-            return instance!!
-        }
-    }
-
     override fun getMovies(): LiveData<List<Item>> {
         val movieResults = MutableLiveData<List<Item>>()
         remoteRepository.getMovies(object : RemoteRepository.GetMoviesCallback {
@@ -65,5 +51,18 @@ class DataRepository(private val remoteRepository: RemoteRepository): DataSource
         return detailShow
     }
 
+    companion object {
+        private var instance: DataRepository? = null
+
+        fun getInstance(remoteRepository: RemoteRepository): DataRepository {
+
+            synchronized(DataRepository::class.java) {
+                if (instance == null) {
+                    instance = DataRepository(remoteRepository)
+                }
+            }
+            return instance!!
+        }
+    }
 
 }

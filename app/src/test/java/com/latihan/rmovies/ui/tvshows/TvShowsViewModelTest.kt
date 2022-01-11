@@ -8,14 +8,12 @@ import com.latihan.rmovies.model.entity.Item
 import com.latihan.rmovies.model.entity.TvShowDetails
 import com.latihan.rmovies.utils.DummyData
 import junit.framework.TestCase
-import kotlinx.coroutines.Dispatchers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.*
-import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
@@ -45,10 +43,9 @@ class TvShowsViewModelTest : TestCase() {
         val shows = MutableLiveData<List<Item>>()
         shows.value = DummyData.getDummyRemoteTvShows()
         lenient().`when`(dataRepository.getTvShows()).thenReturn(shows)
-        viewModel?.shows?.observeForever(observer)
+        viewModel?.getListShows()?.observeForever(observer)
         verify(dataRepository).getTvShows()
         verify(observer).onChanged(shows.value)
-
     }
 
     @Test
@@ -56,8 +53,8 @@ class TvShowsViewModelTest : TestCase() {
         val shows = MutableLiveData<TvShowDetails>()
         shows.value = DummyData.getTvShowDetail()
         `when`(dataRepository.getTvShowDetail(shows.value!!.id.toString())).thenReturn(shows)
-        viewModel?.getDetailShow(shows.value!!.id.toString())?.observeForever(observerDetail)
-        verify(dataRepository).getTvShows()
+        viewModel?.getDetailShow(shows.value?.id.toString())?.observeForever(observerDetail)
+        verify(dataRepository).getTvShowDetail(shows.value?.id.toString())
         verify(observerDetail).onChanged(shows.value)
 
         assertEquals(

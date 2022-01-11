@@ -38,7 +38,7 @@ class MoviesFragment : Fragment() {
             progressBar(true)
             val factory = ViewModelFactory.getInstance(requireActivity())
             val moviesViewModel = ViewModelProviders.of(requireActivity(), factory)[MoviesViewModel::class.java]
-            moviesViewModel.movies.observe(viewLifecycleOwner, Observer {
+            moviesViewModel.getListMovies().observe(viewLifecycleOwner, Observer {
                 adapter.moviesAdapter(it)
                 progressBar(false)
 
