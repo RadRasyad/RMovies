@@ -4,10 +4,11 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.latihan.rmovies.model.DataRepository
-import com.latihan.rmovies.model.entity.Item
-import com.latihan.rmovies.model.entity.TvShowDetails
+import com.latihan.rmovies.model.local.entity.Item
+import com.latihan.rmovies.model.local.entity.TvShowDetails
 import com.latihan.rmovies.utils.DummyData
 import junit.framework.TestCase
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -44,6 +45,8 @@ class TvShowsViewModelTest : TestCase() {
         shows.value = DummyData.getDummyRemoteTvShows()
         lenient().`when`(dataRepository.getTvShows()).thenReturn(shows)
         viewModel?.getListShows()?.observeForever(observer)
+        Assert.assertNotNull(shows.value)
+        Assert.assertEquals(20, shows.value!!.size)
         verify(dataRepository).getTvShows()
         verify(observer).onChanged(shows.value)
     }
@@ -57,6 +60,7 @@ class TvShowsViewModelTest : TestCase() {
         verify(dataRepository).getTvShowDetail(shows.value?.id.toString())
         verify(observerDetail).onChanged(shows.value)
 
+        assertNotNull(shows.value)
         assertEquals(
             shows.value!!.id,
             viewModel?.getDetailShow(shows.value!!.id.toString())?.value?.id

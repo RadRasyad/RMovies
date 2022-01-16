@@ -1,7 +1,7 @@
 package com.latihan.rmovies.utils
 
-import com.latihan.rmovies.model.entity.Item
-import com.latihan.rmovies.model.entity.TvShowDetails
+import com.latihan.rmovies.model.local.entity.Item
+import com.latihan.rmovies.model.local.entity.TvShowDetails
 
 object DummyData {
     fun getDummyRemoteMovies(): List<Item> =

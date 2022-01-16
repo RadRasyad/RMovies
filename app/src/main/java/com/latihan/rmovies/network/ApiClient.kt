@@ -1,7 +1,7 @@
 package com.latihan.rmovies.network
 
-import com.latihan.rmovies.model.entity.Item
-import com.latihan.rmovies.model.entity.TvShowDetails
+import com.latihan.rmovies.model.local.entity.Item
+import com.latihan.rmovies.model.local.entity.TvShowDetails
 import com.latihan.rmovies.model.remote.ItemResponse
 import retrofit2.Call
 import retrofit2.http.GET

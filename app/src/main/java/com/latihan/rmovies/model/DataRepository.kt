@@ -2,8 +2,8 @@ package com.latihan.rmovies.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.latihan.rmovies.model.entity.Item
-import com.latihan.rmovies.model.entity.TvShowDetails
+import com.latihan.rmovies.model.local.entity.Item
+import com.latihan.rmovies.model.local.entity.TvShowDetails
 import com.latihan.rmovies.model.remote.DataSource
 import com.latihan.rmovies.model.remote.RemoteRepository
 

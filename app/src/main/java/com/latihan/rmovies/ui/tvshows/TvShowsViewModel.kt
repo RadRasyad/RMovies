@@ -3,8 +3,8 @@ package com.latihan.rmovies.ui.tvshows
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.latihan.rmovies.model.DataRepository
-import com.latihan.rmovies.model.entity.Item
-import com.latihan.rmovies.model.entity.TvShowDetails
+import com.latihan.rmovies.model.local.entity.Item
+import com.latihan.rmovies.model.local.entity.TvShowDetails
 
 class TvShowsViewModel(private val dataRepository: DataRepository) : ViewModel() {
 

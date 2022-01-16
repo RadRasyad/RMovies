@@ -13,16 +13,17 @@ import com.latihan.rmovies.ui.adapter.MoviesAdapter
 import com.latihan.rmovies.utils.ViewModelFactory
 
 class MoviesFragment : Fragment() {
+
     private var _binding: FragmentMoviesBinding? = null
-    private val binding get() = _binding
-    private val adapter = MoviesAdapter()
+    private val binding get() = _binding!!
+    private val mAdapter = MoviesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentMoviesBinding.inflate(inflater, container, false)
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,28 +34,24 @@ class MoviesFragment : Fragment() {
     }
 
     private fun getMovies() {
+        progressBar(true)
+        val factory = ViewModelFactory.getInstance(requireActivity())
+        val moviesViewModel = ViewModelProviders.of(requireActivity(), factory)[MoviesViewModel::class.java]
+        moviesViewModel.getListMovies().observe(viewLifecycleOwner, Observer {
+            mAdapter.moviesAdapter(it)
+            progressBar(false)
 
-        if (activity!=null) {
-            progressBar(true)
-            val factory = ViewModelFactory.getInstance(requireActivity())
-            val moviesViewModel = ViewModelProviders.of(requireActivity(), factory)[MoviesViewModel::class.java]
-            moviesViewModel.getListMovies().observe(viewLifecycleOwner, Observer {
-                adapter.moviesAdapter(it)
-                progressBar(false)
-
-            })
-            with(binding?.rvMovies){
-                this?.layoutManager = LinearLayoutManager(context)
-                this?.adapter = adapter
-                this?.setHasFixedSize(true)
-            }
-
+        })
+        with(binding.rvMovies){
+            this.layoutManager = LinearLayoutManager(context)
+            this.adapter = mAdapter
+            this.setHasFixedSize(true)
         }
 
     }
 
     private fun progressBar(state: Boolean) {
-        if (!state) binding?.progressBar?.visibility = View.GONE
+        if (!state) binding.progressBar.visibility = View.GONE
     }
 
 

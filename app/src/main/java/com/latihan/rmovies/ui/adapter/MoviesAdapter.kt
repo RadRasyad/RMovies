@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.latihan.rmovies.R
 import com.latihan.rmovies.databinding.ItemRowBinding
-import com.latihan.rmovies.model.entity.Item
+import com.latihan.rmovies.model.local.entity.Item
 import com.latihan.rmovies.ui.detail.DetailActivity
 
 class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {

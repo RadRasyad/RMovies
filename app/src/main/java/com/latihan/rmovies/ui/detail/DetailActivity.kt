@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.latihan.rmovies.R
 import com.latihan.rmovies.databinding.ActivityDetailBinding
-import com.latihan.rmovies.model.entity.Item
-import com.latihan.rmovies.model.entity.TvShowDetails
+import com.latihan.rmovies.model.local.entity.Item
+import com.latihan.rmovies.model.local.entity.TvShowDetails
 import com.latihan.rmovies.ui.movies.MoviesViewModel
 import com.latihan.rmovies.ui.tvshows.TvShowsViewModel
 import com.latihan.rmovies.utils.ViewModelFactory

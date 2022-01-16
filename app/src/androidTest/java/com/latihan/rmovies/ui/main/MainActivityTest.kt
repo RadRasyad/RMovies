@@ -40,7 +40,7 @@ class MainActivityTest : TestCase() {
 
     @Test
     fun loadMovies() {
-        delay()
+
         onView(withId(R.id.rv_movies))
             .check(matches(isDisplayed()))
         onView(withId(R.id.rv_movies)).perform(
@@ -50,7 +50,7 @@ class MainActivityTest : TestCase() {
 
     @Test
     fun loadDetailMovie() {
-        delay()
+
         onView(withId(R.id.rv_movies)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                 0,
@@ -58,7 +58,6 @@ class MainActivityTest : TestCase() {
             )
         )
 
-        delay()
         onView(withId(R.id.mtitle_value)).check(matches(isDisplayed()))
         onView(withId(R.id.mtitle_value)).check(matches(withText(dummyMovie[0].title)))
         onView(withId(R.id.mrelease_value)).check(matches(isDisplayed()))
@@ -74,9 +73,8 @@ class MainActivityTest : TestCase() {
 
     @Test
     fun loadTvShows() {
-        delay()
+
         onView(withText("Tv Shows")).perform(ViewActions.click())
-        delay()
         onView(withId(R.id.rv_shows)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_shows)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(19)
@@ -85,9 +83,8 @@ class MainActivityTest : TestCase() {
 
     @Test
     fun loadDetailShow() {
-        delay()
+
         onView(withText("Tv Shows")).perform(ViewActions.click())
-        delay()
         onView(withId(R.id.rv_shows)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                 0,
@@ -95,7 +92,6 @@ class MainActivityTest : TestCase() {
             )
         )
 
-        delay()
         onView(withId(R.id.mtitle_value)).check(matches(isDisplayed()))
         onView(withId(R.id.mtitle_value)).check(matches(withText(dummyShow.name)))
         onView(withId(R.id.mrelease_value)).check(matches(isDisplayed()))
@@ -115,11 +111,4 @@ class MainActivityTest : TestCase() {
 
     }
 
-    private fun delay() {
-        try {
-            Thread.sleep(1500)
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        }
-    }
 }

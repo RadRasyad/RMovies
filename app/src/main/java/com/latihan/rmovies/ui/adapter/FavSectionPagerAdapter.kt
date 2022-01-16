@@ -1,24 +1,24 @@
 package com.latihan.rmovies.ui.adapter
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.latihan.rmovies.ui.favorite.FavoriteFragment
+import com.latihan.rmovies.ui.favorite.favmovies.FavMoviesFragment
+import com.latihan.rmovies.ui.favorite.favshows.FavShowsFragment
+import com.latihan.rmovies.ui.home.HomeFragment
 import com.latihan.rmovies.ui.movies.MoviesFragment
 import com.latihan.rmovies.ui.tvshows.TvShowsFragment
 
-class SectionPagerAdapter(
-    fm: FragmentManager,
-    lifeCycle: Lifecycle
-): FragmentStateAdapter(fm, lifeCycle) {
+class FavSectionPagerAdapter(activity: FavoriteFragment) :
+    FragmentStateAdapter(activity) {
 
     override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment {
         var fragment: Fragment? = null
         when (position) {
-            0 -> fragment = MoviesFragment()
-            1 -> fragment = TvShowsFragment()
+            0 -> fragment = FavMoviesFragment()
+            1 -> fragment = FavShowsFragment()
         }
         return fragment as Fragment
     }

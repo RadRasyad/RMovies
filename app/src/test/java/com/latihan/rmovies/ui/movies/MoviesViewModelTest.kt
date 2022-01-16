@@ -4,9 +4,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.latihan.rmovies.model.DataRepository
-import com.latihan.rmovies.model.entity.Item
+import com.latihan.rmovies.model.local.entity.Item
 import com.latihan.rmovies.utils.DummyData
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -44,6 +45,8 @@ class MoviesViewModelTest {
 
         lenient().`when`(dataRepository.getMovies()).thenReturn(movies)
         viewModel?.getListMovies()?.observeForever(observer)
+        assertNotNull(movies.value)
+        assertEquals(20, movies.value!!.size)
         verify(dataRepository).getMovies()
         verify(observer).onChanged(movies.value)
     }
@@ -57,6 +60,8 @@ class MoviesViewModelTest {
         viewModel?.getDetailMovie(movies.value?.id.toString())?.observeForever(observerDetail)
         verify(dataRepository).getMovieDetail(movies.value?.id.toString())
         verify(observerDetail).onChanged(movies.value)
+
+        assertNotNull(movies.value)
 
         assertEquals(
             movies.value!!.id,

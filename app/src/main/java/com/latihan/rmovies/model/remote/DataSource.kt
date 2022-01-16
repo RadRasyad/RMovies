@@ -1,8 +1,8 @@
 package com.latihan.rmovies.model.remote
 
 import androidx.lifecycle.LiveData
-import com.latihan.rmovies.model.entity.Item
-import com.latihan.rmovies.model.entity.TvShowDetails
+import com.latihan.rmovies.model.local.entity.Item
+import com.latihan.rmovies.model.local.entity.TvShowDetails
 
 interface DataSource {
 

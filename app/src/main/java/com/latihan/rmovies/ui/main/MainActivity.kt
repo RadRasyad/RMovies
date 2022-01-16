@@ -3,7 +3,10 @@ package com.latihan.rmovies.ui.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.annotation.StringRes
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.latihan.rmovies.R
@@ -19,23 +22,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initPagerAdapter()
+        initBottomNav()
     }
 
-    private fun initPagerAdapter() {
-        val sectionPagerAdapter = SectionPagerAdapter(this)
-        val viewPager: ViewPager2 = binding.viewPager
-        viewPager.adapter = sectionPagerAdapter
-        val tabs: TabLayout = binding.tabLayout
-        TabLayoutMediator(tabs, viewPager) { tabs, position ->
-            tabs.text = resources.getString(
-                TAB_TITLES[position]
-            )
-        }.attach()
+    private fun initBottomNav() {
+        val navView: BottomNavigationView = binding.navView
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+
+        navView.setupWithNavController(navController)
     }
 
-    companion object {
-        @StringRes
-        private val TAB_TITLES = intArrayOf(R.string.movies, R.string.tv_show)
-    }
 }
