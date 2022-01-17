@@ -1,8 +1,13 @@
 package com.latihan.rmovies.model.remote
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.latihan.rmovies.BuildConfig
-import com.latihan.rmovies.model.local.entity.Item
-import com.latihan.rmovies.model.local.entity.TvShowDetails
+import com.latihan.rmovies.model.local.entity.MoviesEntity
+import com.latihan.rmovies.model.local.entity.TvShowsEntity
+import com.latihan.rmovies.model.remote.response.MoviesResponse
+import com.latihan.rmovies.model.remote.response.TvShowsResponse
 import com.latihan.rmovies.network.ApiConfig
 import com.latihan.rmovies.utils.EspressoIdlingResource
 import retrofit2.Call
@@ -13,84 +18,88 @@ class RemoteRepository {
 
     private val apiConfig = ApiConfig
 
-    interface GetMoviesCallback {
-        fun onResponse(movies: List<Item>)
-    }
-
-    interface GetDetailMovieCallback {
-        fun onResponse(detailMovieResponse: Item)
-    }
-
-    interface GetTvShowsCallback {
-        fun onResponse(shows: List<Item>)
-    }
-
-    interface GetDetailShowCallback {
-        fun onResponse(detailShowResponse: TvShowDetails)
-    }
-
-    fun getMovies(callback: GetMoviesCallback) {
+    fun getMovies(): LiveData<ApiResponse<List<MoviesEntity>>> {
         EspressoIdlingResource.increment()
-        apiConfig.create().getMovies(apiKey).enqueue(object : Callback<ItemResponse> {
+        val movies = MutableLiveData<ApiResponse<List<MoviesEntity>>>()
+        apiConfig.create().getMovies(apiKey).enqueue(object : Callback<MoviesResponse> {
             override fun onResponse(
-                call: Call<ItemResponse>,
-                response: Response<ItemResponse>
+                call: Call<MoviesResponse>,
+                response: Response<MoviesResponse>
             ) {
-                response.body()?.list?.let { callback.onResponse(it) }
+                val result = response.body()!!.list
+                if (result!=null) {
+                    Log.d("remoterepo :", result.size.toString())
+                    movies.postValue(ApiResponse.success(result))
+                }
                 EspressoIdlingResource.decrement()
             }
 
-            override fun onFailure(call: Call<ItemResponse>, t: Throwable) {
+            override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
                 EspressoIdlingResource.decrement()
             }
         })
+        return movies
+    }
+
+    interface GetDetailMovieCallback {
+        fun onResponse(detailMovieResponse: MoviesEntity)
     }
 
     fun getDetailMovie(moviesId: String, callback: GetDetailMovieCallback) {
         EspressoIdlingResource.increment()
-        apiConfig.create().getDetailsMovie(moviesId, apiKey).enqueue(object : Callback<Item> {
-            override fun onResponse(call: Call<Item>, response: Response<Item>) {
+        apiConfig.create().getDetailsMovie(moviesId, apiKey).enqueue(object : Callback<MoviesEntity> {
+            override fun onResponse(call: Call<MoviesEntity>, response: Response<MoviesEntity>) {
                 response.body()?.let { callback.onResponse(it) }
                 EspressoIdlingResource.decrement()
             }
 
-            override fun onFailure(call: Call<Item>, t: Throwable) {
+            override fun onFailure(call: Call<MoviesEntity>, t: Throwable) {
                 EspressoIdlingResource.decrement()
             }
         })
     }
 
-    fun getTvShows(callback: GetTvShowsCallback) {
+    fun getTvShows(): MutableLiveData<ApiResponse<List<TvShowsEntity>>> {
         EspressoIdlingResource.increment()
-        apiConfig.create().getTvShows(apiKey).enqueue(object : Callback<ItemResponse> {
+        val shows = MutableLiveData<ApiResponse<List<TvShowsEntity>>>()
+        apiConfig.create().getTvShows(apiKey).enqueue(object : Callback<TvShowsResponse> {
             override fun onResponse(
-                call: Call<ItemResponse>,
-                response: Response<ItemResponse>
+                call: Call<TvShowsResponse>,
+                response: Response<TvShowsResponse>
             ) {
-                response.body()?.list?.let { callback.onResponse(it) }
+                val result = response.body()?.list
+                if (result!=null) {
+                    shows.postValue(ApiResponse.success(result))
+                }
                 EspressoIdlingResource.decrement()
             }
 
-            override fun onFailure(call: Call<ItemResponse>, t: Throwable) {
+            override fun onFailure(call: Call<TvShowsResponse>, t: Throwable) {
                 EspressoIdlingResource.decrement()
             }
         })
+
+        return shows
+    }
+
+    interface GetDetailShowCallback {
+        fun onResponse(detailShowResponse: TvShowsEntity)
     }
 
     fun getDetailShow(showsId: String, callback: GetDetailShowCallback) {
 
         EspressoIdlingResource.increment()
         apiConfig.create().getTvShowDetails(showsId, apiKey)
-            .enqueue(object : Callback<TvShowDetails> {
+            .enqueue(object : Callback<TvShowsEntity> {
                 override fun onResponse(
-                    call: Call<TvShowDetails>,
-                    response: Response<TvShowDetails>
+                    call: Call<TvShowsEntity>,
+                    response: Response<TvShowsEntity>
                 ) {
                     response.body()?.let { callback.onResponse(it) }
                     EspressoIdlingResource.decrement()
                 }
 
-                override fun onFailure(call: Call<TvShowDetails>, t: Throwable) {
+                override fun onFailure(call: Call<TvShowsEntity>, t: Throwable) {
                     EspressoIdlingResource.decrement()
                 }
             })

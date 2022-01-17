@@ -6,8 +6,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "item")
-data class Item(
+@Entity(tableName = "movie")
+data class MoviesEntity(
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "id")
@@ -17,10 +17,6 @@ data class Item(
     @ColumnInfo(name = "title")
     @SerializedName("title")
     val title: String?,
-
-    @ColumnInfo(name = "name")
-    @SerializedName("name")
-    val name: String?,
 
     @ColumnInfo(name = "overview")
     @SerializedName("overview")

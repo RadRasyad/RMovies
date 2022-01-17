@@ -5,13 +5,12 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.latihan.rmovies.R
 import com.latihan.rmovies.databinding.ActivityDetailBinding
-import com.latihan.rmovies.model.local.entity.Item
-import com.latihan.rmovies.model.local.entity.TvShowDetails
+import com.latihan.rmovies.model.local.entity.MoviesEntity
+import com.latihan.rmovies.model.local.entity.TvShowsEntity
 import com.latihan.rmovies.ui.movies.MoviesViewModel
 import com.latihan.rmovies.ui.tvshows.TvShowsViewModel
 import com.latihan.rmovies.utils.ViewModelFactory
@@ -50,7 +49,7 @@ class DetailActivity : AppCompatActivity() {
         val factory = ViewModelFactory.getInstance(this)
         val moviesViewModel = ViewModelProviders.of(this, factory)[MoviesViewModel::class.java]
 
-        moviesViewModel.getDetailMovie(movie).observe(this, Observer {
+        moviesViewModel.getDetailMovie(movie).observe(this, {
             progressBar(true)
             loadDataMovie(it)
             progressBar(false)
@@ -62,14 +61,14 @@ class DetailActivity : AppCompatActivity() {
         val factory = ViewModelFactory.getInstance(this)
         val showsViewModel = ViewModelProviders.of(this, factory)[TvShowsViewModel::class.java]
 
-        showsViewModel.getDetailShow(shows).observe(this, Observer {
+        showsViewModel.getDetailShow(shows).observe(this, {
             progressBar(true)
             loadDataShow(it)
             progressBar(false)
         })
     }
 
-    private fun loadDataMovie(movie: Item?) {
+    private fun loadDataMovie(movie: MoviesEntity?) {
 
         binding.apply {
             mtitleValue.text = movie?.title
@@ -85,7 +84,7 @@ class DetailActivity : AppCompatActivity() {
 
     }
 
-    private fun loadDataShow(shows: TvShowDetails?) {
+    private fun loadDataShow(shows: TvShowsEntity?) {
 
         binding.apply {
             mtitleValue.text = shows?.name
@@ -113,7 +112,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
 
-    fun ImageView.loadImage(url: String?) {
+    private fun ImageView.loadImage(url: String?) {
         Glide.with(this.context)
             .load(url)
             .placeholder(R.drawable.placeholder)

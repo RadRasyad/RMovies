@@ -1,38 +1,99 @@
 package com.latihan.rmovies.model
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.latihan.rmovies.model.local.entity.Item
-import com.latihan.rmovies.model.local.entity.TvShowDetails
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.latihan.rmovies.model.local.LocalDataSource
+import com.latihan.rmovies.model.local.entity.MoviesEntity
+import com.latihan.rmovies.model.local.entity.TvShowsEntity
+import com.latihan.rmovies.model.remote.ApiResponse
 import com.latihan.rmovies.model.remote.DataSource
 import com.latihan.rmovies.model.remote.RemoteRepository
+import com.latihan.rmovies.model.remote.response.MoviesResponse
+import com.latihan.rmovies.utils.AppExecutors
+import com.latihan.rmovies.vo.Resource
 
-class DataRepository(private val remoteRepository: RemoteRepository): DataSource {
+class DataRepository(private val remoteRepository: RemoteRepository, private val localDataSource: LocalDataSource, private val appExecutors: AppExecutors): DataSource {
 
-    override fun getMovies(): LiveData<List<Item>> {
-        val movieResults = MutableLiveData<List<Item>>()
-        remoteRepository.getMovies(object : RemoteRepository.GetMoviesCallback {
-            override fun onResponse(movies: List<Item>) {
-                movieResults.postValue(movies)
+    override fun getMovies(): LiveData<Resource<PagedList<MoviesEntity>>> {
+        return object : NetworkBoundResource<PagedList<MoviesEntity>, List<MoviesEntity>>(appExecutors) {
+            override fun loadFromDB(): LiveData<PagedList<MoviesEntity>> {
+                val config = PagedList.Config.Builder()
+                    .setEnablePlaceholders(false)
+                    .setInitialLoadSizeHint(10)
+                    .setPageSize(10)
+                    .build()
+                return LivePagedListBuilder(localDataSource.getMovies(), config).build()
             }
-        })
-        return movieResults
+            override fun shouldFetch(data: PagedList<MoviesEntity>?): Boolean =
+                data == null || data.isEmpty()
+
+            override fun createCall(): LiveData<ApiResponse<List<MoviesEntity>>> {
+                Log.d("datarepo", remoteRepository.getMovies().value.toString())
+                return remoteRepository.getMovies()
+
+            }
+
+            override fun saveCallResult(data: List<MoviesEntity>) {
+                lateinit var movieList : MoviesEntity
+                for(response in data) {
+                    movieList = MoviesEntity(
+                        response.id,
+                        response.title,
+                        response.overview,
+                        response.releasedDate,
+                        response.voteAverage,
+                        response.posterPath,
+                        response.backdropPath,
+                    )
+                }
+                localDataSource.updateMovies(movieList)
+            }
+        }.asLiveData()
+
     }
 
-    override fun getTvShows(): LiveData<List<Item>> {
-        val showsResults = MutableLiveData<List<Item>>()
-        remoteRepository.getTvShows(object : RemoteRepository.GetTvShowsCallback {
-            override fun onResponse(shows: List<Item>) {
-                showsResults.postValue(shows)
+    override fun getTvShows(): LiveData<Resource<PagedList<TvShowsEntity>>> {
+        return object : NetworkBoundResource<PagedList<TvShowsEntity>, List<TvShowsEntity>>(appExecutors) {
+            override fun loadFromDB(): LiveData<PagedList<TvShowsEntity>> {
+                val config = PagedList.Config.Builder()
+                    .setEnablePlaceholders(false)
+                    .setInitialLoadSizeHint(10)
+                    .setPageSize(10)
+                    .build()
+                return LivePagedListBuilder(localDataSource.getShows(), config).build()
             }
-        })
-        return showsResults
+
+            override fun shouldFetch(data: PagedList<TvShowsEntity>?): Boolean =
+                data == null || data.isEmpty()
+
+            override fun createCall(): LiveData<ApiResponse<List<TvShowsEntity>>> =
+                remoteRepository.getTvShows()
+
+            override fun saveCallResult(data: List<TvShowsEntity>) {
+                lateinit var showList: TvShowsEntity
+                for(response in data) {
+                    showList = TvShowsEntity(
+                        response.id,
+                        response.name,
+                        response.overview,
+                        response.firstAirDate,
+                        response.voteAverage,
+                        response.posterPath,
+                        response.backdropPath,
+                    )
+                }
+                localDataSource.updateShows(showList)
+            }
+        }.asLiveData()
     }
 
-    override fun getMovieDetail(movieId: String): LiveData<Item> {
-        val detailMovie = MutableLiveData<Item>()
+    override fun getMovieDetail(movieId: String): LiveData<MoviesEntity> {
+        val detailMovie = MutableLiveData<MoviesEntity>()
         remoteRepository.getDetailMovie(movieId, object: RemoteRepository.GetDetailMovieCallback{
-            override fun onResponse(detailMovieResponse: Item) {
+            override fun onResponse(detailMovieResponse: MoviesEntity) {
                 detailMovie.postValue(detailMovieResponse)
             }
 
@@ -40,10 +101,10 @@ class DataRepository(private val remoteRepository: RemoteRepository): DataSource
         return detailMovie
     }
 
-    override fun getTvShowDetail(tvShowId: String): LiveData<TvShowDetails> {
-        val detailShow = MutableLiveData<TvShowDetails>()
+    override fun getTvShowDetail(tvShowId: String): LiveData<TvShowsEntity> {
+        val detailShow = MutableLiveData<TvShowsEntity>()
         remoteRepository.getDetailShow(tvShowId, object: RemoteRepository.GetDetailShowCallback{
-            override fun onResponse(detailShowResponse: TvShowDetails) {
+            override fun onResponse(detailShowResponse: TvShowsEntity) {
                 detailShow.postValue(detailShowResponse)
             }
 
@@ -54,11 +115,11 @@ class DataRepository(private val remoteRepository: RemoteRepository): DataSource
     companion object {
         private var instance: DataRepository? = null
 
-        fun getInstance(remoteRepository: RemoteRepository): DataRepository {
+        fun getInstance(remoteRepository: RemoteRepository, localDataSource: LocalDataSource, appExecutors: AppExecutors): DataRepository {
 
             synchronized(DataRepository::class.java) {
                 if (instance == null) {
-                    instance = DataRepository(remoteRepository)
+                    instance = DataRepository(remoteRepository, localDataSource, appExecutors)
                 }
             }
             return instance!!

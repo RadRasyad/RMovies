@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.latihan.rmovies.model.DataRepository
-import com.latihan.rmovies.model.local.entity.Item
+import com.latihan.rmovies.model.local.entity.MoviesEntity
 import com.latihan.rmovies.utils.DummyData
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -17,7 +17,7 @@ import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class MoviesViewModelTest {
+class MoviesEntityViewModelTest {
 
     private var viewModel: MoviesViewModel? = null
 
@@ -28,10 +28,10 @@ class MoviesViewModelTest {
     private lateinit var dataRepository: DataRepository
 
     @Mock
-    private lateinit var observerDetail: Observer<Item>
+    private lateinit var observerDetail: Observer<MoviesEntity>
 
     @Mock
-    private lateinit var observer: Observer<List<Item>>
+    private lateinit var observer: Observer<List<MoviesEntity>>
 
     @Before
     fun setUp() {
@@ -40,7 +40,7 @@ class MoviesViewModelTest {
 
     @Test
     fun testGetMovies() {
-        val movies = MutableLiveData<List<Item>>()
+        val movies = MutableLiveData<List<MoviesEntity>>()
         movies.value = DummyData.getDummyRemoteMovies()
 
         lenient().`when`(dataRepository.getMovies()).thenReturn(movies)
@@ -53,7 +53,7 @@ class MoviesViewModelTest {
 
     @Test
     fun testGetDetailMovie() {
-        val movies = MutableLiveData<Item>()
+        val movies = MutableLiveData<MoviesEntity>()
         movies.value = DummyData.getDummyRemoteMovies()[0]
 
         `when`(dataRepository.getMovieDetail(movies.value!!.id.toString())).thenReturn(movies)

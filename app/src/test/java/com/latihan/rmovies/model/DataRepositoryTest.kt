@@ -77,7 +77,7 @@ class DataRepositoryTest {
             eq(movieId), any()
         )
         assertNotNull(detailEntity)
-        assertEquals(movieDetails.name, detailEntity.name)
+        assertEquals(movieDetails.title, detailEntity.title)
     }
 
     @Test

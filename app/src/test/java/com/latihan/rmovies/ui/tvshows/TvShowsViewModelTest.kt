@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.latihan.rmovies.model.DataRepository
-import com.latihan.rmovies.model.local.entity.Item
+import com.latihan.rmovies.model.local.entity.MoviesEntity
 import com.latihan.rmovies.model.local.entity.TvShowDetails
 import com.latihan.rmovies.utils.DummyData
 import junit.framework.TestCase
@@ -29,7 +29,7 @@ class TvShowsViewModelTest : TestCase() {
     private lateinit var dataRepository: DataRepository
 
     @Mock
-    private lateinit var observer: Observer<List<Item>>
+    private lateinit var observer: Observer<List<MoviesEntity>>
 
     @Mock
     private lateinit var observerDetail: Observer<TvShowDetails>
@@ -41,7 +41,7 @@ class TvShowsViewModelTest : TestCase() {
 
     @Test
     fun testGetShows() {
-        val shows = MutableLiveData<List<Item>>()
+        val shows = MutableLiveData<List<MoviesEntity>>()
         shows.value = DummyData.getDummyRemoteTvShows()
         lenient().`when`(dataRepository.getTvShows()).thenReturn(shows)
         viewModel?.getListShows()?.observeForever(observer)

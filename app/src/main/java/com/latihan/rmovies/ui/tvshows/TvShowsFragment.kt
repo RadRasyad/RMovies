@@ -28,19 +28,18 @@ class TvShowsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getShows()
+
     }
 
-    private fun getShows() {
+    /*private fun getShows() {
 
         if (activity != null) {
             progressBar(true)
-            val factory = ViewModelFactory.getInstance(requireActivity())
+            val factory = ViewModelFactory.getInstance(requireContext(requireActivity()))
             val tvShowsViewModel =
                 ViewModelProviders.of(requireActivity(), factory)[TvShowsViewModel::class.java]
             tvShowsViewModel.getListShows().observe(viewLifecycleOwner, Observer {
-                adapter.showsAdapter(it)
-                progressBar(false)
+
             })
             with(binding?.rvShows) {
                 this?.layoutManager = LinearLayoutManager(context)
@@ -50,6 +49,8 @@ class TvShowsFragment : Fragment() {
         }
 
     }
+
+     */
 
     private fun progressBar(state: Boolean) {
         if (!state) binding?.progressBar?.visibility = View.GONE

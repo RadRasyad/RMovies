@@ -1,19 +1,38 @@
 package com.latihan.rmovies.model.local.room
 
+import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
-import androidx.room.Dao
-import androidx.room.Query
-import com.latihan.rmovies.model.local.entity.Item
+import androidx.room.*
+import com.latihan.rmovies.model.local.entity.MoviesEntity
+import com.latihan.rmovies.model.local.entity.TvShowsEntity
 
 @Dao
 interface CDao {
 
-    @Query("SELECT * FROM item")
-    fun getMovies(): DataSource.Factory<Int, Item>
+    @Query("SELECT * FROM movie")
+    fun getMovies(): DataSource.Factory<Int, MoviesEntity>
 
-    @Query("SELECT * FROM item")
-    fun getTvShows(): DataSource.Factory<Int, Item>
+    @Transaction
+    @Query("SELECT * FROM movie WHERE id = :movieId")
+    fun getMovieDetail(movieId: String): LiveData<MoviesEntity>
 
-    @Query("SELECT * FROM item")
-    fun getDetailMovies(movieId: String)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertMovies(movies: List<MoviesEntity>)
+
+    @Update
+    fun updateMovies(movies: MoviesEntity)
+
+
+    @Query("SELECT * FROM tvshow")
+    fun getTvShows(): DataSource.Factory<Int, TvShowsEntity>
+
+    @Query("SELECT * FROM tvshow WHERE id = :showId")
+    fun getTvShowDetail(showId: String): LiveData<TvShowsEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertShows(shows: List<TvShowsEntity>)
+
+    @Update
+    fun updateShows(shows: TvShowsEntity)
+
 }
