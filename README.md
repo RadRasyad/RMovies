@@ -1,5 +1,5 @@
 # RMovies
-RMovies - BAJP sub-2
+RMovies
 
 ##
 set api key in gradle.properties -> apiKey = "api key"
