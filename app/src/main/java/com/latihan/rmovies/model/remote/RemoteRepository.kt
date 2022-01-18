@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.latihan.rmovies.BuildConfig
 import com.latihan.rmovies.model.local.entity.MoviesEntity
 import com.latihan.rmovies.model.local.entity.TvShowsEntity
+import com.latihan.rmovies.model.remote.response.Movies
 import com.latihan.rmovies.model.remote.response.MoviesResponse
 import com.latihan.rmovies.model.remote.response.TvShowsResponse
 import com.latihan.rmovies.network.ApiConfig
@@ -18,18 +19,22 @@ class RemoteRepository {
 
     private val apiConfig = ApiConfig
 
-    fun getMovies(): LiveData<ApiResponse<List<MoviesEntity>>> {
+    fun getMovies(): LiveData<ApiResponse<List<Movies>>> {
         EspressoIdlingResource.increment()
-        val movies = MutableLiveData<ApiResponse<List<MoviesEntity>>>()
+        val movies = MutableLiveData<ApiResponse<List<Movies>>>()
         apiConfig.create().getMovies(apiKey).enqueue(object : Callback<MoviesResponse> {
             override fun onResponse(
                 call: Call<MoviesResponse>,
                 response: Response<MoviesResponse>
             ) {
-                val result = response.body()!!.list
-                if (result!=null) {
-                    Log.d("remoterepo :", result.size.toString())
-                    movies.postValue(ApiResponse.success(result))
+                val result = response.body()?.list
+                Log.d("getData API", result?.size.toString())
+                if (result != null) {
+                    val add = ApiResponse.success(result)
+                    Log.d("Data to add", add.body.size.toString())
+
+                    movies.postValue(add)
+                    Log.d("add data value", movies.value.toString())
                 }
                 EspressoIdlingResource.decrement()
             }
@@ -39,6 +44,7 @@ class RemoteRepository {
             }
         })
         return movies
+
     }
 
     interface GetDetailMovieCallback {
@@ -105,7 +111,6 @@ class RemoteRepository {
             })
 
     }
-
 
     companion object {
         const val apiKey = BuildConfig.API_KEY

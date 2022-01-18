@@ -20,7 +20,7 @@ interface CDao {
     fun insertMovies(movies: List<MoviesEntity>)
 
     @Update
-    fun updateMovies(movies: MoviesEntity)
+    fun updateMovies(movies: ArrayList<MoviesEntity>)
 
 
     @Query("SELECT * FROM tvshow")

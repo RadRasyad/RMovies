@@ -28,18 +28,19 @@
         android:id="@+id/chipGroup2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:singleSelection="true"
         app:layout_constraintStart_toStartOf="@+id/sv_layout"
         app:layout_constraintTop_toBottomOf="@+id/sv_layout">
 
         <com.google.android.material.chip.Chip
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Movies"
             app:checkedIconTint="@color/secondary_color" />
 
         <com.google.android.material.chip.Chip
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tv Shows"

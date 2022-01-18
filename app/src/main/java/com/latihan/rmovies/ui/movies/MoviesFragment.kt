@@ -32,6 +32,25 @@ class MoviesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         getMovies()
+        /*
+        val factory = ViewModelFactory.getInstance(requireActivity())
+        val moviesViewModel = ViewModelProviders.of(requireActivity(), factory)[MoviesViewModel::class.java]
+        moviesViewModel.getData().observe(viewLifecycleOwner, Observer {
+            val moviesAdapter = TestAdapter()
+            if (it!=null) {
+                moviesAdapter.add(it)
+                progressBar(false)
+            }
+            with(binding.rvMovies){
+                this.layoutManager = LinearLayoutManager(context)
+                this.adapter = moviesAdapter
+                this.setHasFixedSize(true)
+            }
+        })
+
+         */
+
+
 
     }
 

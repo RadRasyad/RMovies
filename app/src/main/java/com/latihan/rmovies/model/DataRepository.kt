@@ -11,14 +11,14 @@ import com.latihan.rmovies.model.local.entity.TvShowsEntity
 import com.latihan.rmovies.model.remote.ApiResponse
 import com.latihan.rmovies.model.remote.DataSource
 import com.latihan.rmovies.model.remote.RemoteRepository
-import com.latihan.rmovies.model.remote.response.MoviesResponse
+import com.latihan.rmovies.model.remote.response.Movies
 import com.latihan.rmovies.utils.AppExecutors
 import com.latihan.rmovies.vo.Resource
 
 class DataRepository(private val remoteRepository: RemoteRepository, private val localDataSource: LocalDataSource, private val appExecutors: AppExecutors): DataSource {
 
     override fun getMovies(): LiveData<Resource<PagedList<MoviesEntity>>> {
-        return object : NetworkBoundResource<PagedList<MoviesEntity>, List<MoviesEntity>>(appExecutors) {
+        return object : NetworkBoundResource<PagedList<MoviesEntity>, List<Movies>>(appExecutors) {
             override fun loadFromDB(): LiveData<PagedList<MoviesEntity>> {
                 val config = PagedList.Config.Builder()
                     .setEnablePlaceholders(false)
@@ -27,19 +27,19 @@ class DataRepository(private val remoteRepository: RemoteRepository, private val
                     .build()
                 return LivePagedListBuilder(localDataSource.getMovies(), config).build()
             }
+
             override fun shouldFetch(data: PagedList<MoviesEntity>?): Boolean =
                 data == null || data.isEmpty()
 
-            override fun createCall(): LiveData<ApiResponse<List<MoviesEntity>>> {
-                Log.d("datarepo", remoteRepository.getMovies().value.toString())
+            override fun createCall(): LiveData<ApiResponse<List<Movies>>> {
+                Log.d("datarepo", remoteRepository.getMovies().toString())
                 return remoteRepository.getMovies()
-
             }
 
-            override fun saveCallResult(data: List<MoviesEntity>) {
-                lateinit var movieList : MoviesEntity
+            override fun saveCallResult(data: List<Movies>) {
+                val movieList = ArrayList<MoviesEntity>()
                 for(response in data) {
-                    movieList = MoviesEntity(
+                    val movie = MoviesEntity(
                         response.id,
                         response.title,
                         response.overview,
@@ -48,6 +48,7 @@ class DataRepository(private val remoteRepository: RemoteRepository, private val
                         response.posterPath,
                         response.backdropPath,
                     )
+                    movieList.add(movie)
                 }
                 localDataSource.updateMovies(movieList)
             }
