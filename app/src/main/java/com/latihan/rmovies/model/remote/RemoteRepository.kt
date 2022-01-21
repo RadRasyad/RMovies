@@ -33,8 +33,8 @@ class RemoteRepository {
                     val add = ApiResponse.success(result)
                     Log.d("Data to add", add.body.size.toString())
 
-                    movies.postValue(add)
-                    Log.d("add data value", movies.value.toString())
+                    movies.value = add
+                    Log.d("add data value", movies.value?.body.toString())
                 }
                 EspressoIdlingResource.decrement()
             }
@@ -75,7 +75,7 @@ class RemoteRepository {
             ) {
                 val result = response.body()?.list
                 if (result!=null) {
-                    shows.postValue(ApiResponse.success(result))
+                    shows.value = ApiResponse.success(result)
                 }
                 EspressoIdlingResource.decrement()
             }

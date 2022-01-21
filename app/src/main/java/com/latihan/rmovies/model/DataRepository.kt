@@ -50,7 +50,7 @@ class DataRepository(private val remoteRepository: RemoteRepository, private val
                     )
                     movieList.add(movie)
                 }
-                localDataSource.updateMovies(movieList)
+                localDataSource.insertMovies(movieList)
             }
         }.asLiveData()
 
@@ -74,9 +74,10 @@ class DataRepository(private val remoteRepository: RemoteRepository, private val
                 remoteRepository.getTvShows()
 
             override fun saveCallResult(data: List<TvShowsEntity>) {
-                lateinit var showList: TvShowsEntity
+                Log.d("Save Call Result TVShow", data.toString())
+                val showList = ArrayList<TvShowsEntity>()
                 for(response in data) {
-                    showList = TvShowsEntity(
+                    val show = TvShowsEntity(
                         response.id,
                         response.name,
                         response.overview,
@@ -85,8 +86,9 @@ class DataRepository(private val remoteRepository: RemoteRepository, private val
                         response.posterPath,
                         response.backdropPath,
                     )
+                    showList.add(show)
                 }
-                localDataSource.updateShows(showList)
+                localDataSource.insertShows(showList)
             }
         }.asLiveData()
     }

@@ -13,12 +13,15 @@ class LocalDataSource private constructor(private val mCDao: CDao) {
 
     fun getMovieDetail(movieId: String): LiveData<MoviesEntity> = mCDao.getMovieDetail(movieId)
 
-    fun updateMovies(moviesEntity: ArrayList<MoviesEntity>) = mCDao.updateMovies(moviesEntity)
+    fun insertMovies(moviesEntity: ArrayList<MoviesEntity>) = mCDao.insertMovies(moviesEntity)
 
+    fun updateMovies(moviesEntity: ArrayList<MoviesEntity>) = mCDao.updateMovies(moviesEntity)
 
     fun getShows(): DataSource.Factory<Int, TvShowsEntity> = mCDao.getTvShows()
 
     fun getShowDetail(showId: String): LiveData<TvShowsEntity> = mCDao.getTvShowDetail(showId)
+
+    fun insertShows(showEntities: ArrayList<TvShowsEntity>) = mCDao.insertShows(showEntities)
 
     fun updateShows(showsEntity: TvShowsEntity) = mCDao.updateShows(showsEntity)
 

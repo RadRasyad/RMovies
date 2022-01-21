@@ -1,5 +1,6 @@
 package com.latihan.rmovies.model
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.latihan.rmovies.model.remote.ApiResponse
