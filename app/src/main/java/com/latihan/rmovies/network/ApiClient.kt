@@ -16,7 +16,7 @@ interface ApiClient {
     @GET("movie/{movie_id}")
     fun getDetailsMovie(@Path("movie_id") movieId: String?,
                         @Query("api_key") apiKey: String?
-    ) : Call<MoviesEntity>
+    ) : Call<MoviesResponse>
 
     @GET("tv/popular")
     fun getTvShows(@Query("api_key") apiKey: String?) : Call<TvShowsResponse>
@@ -24,5 +24,5 @@ interface ApiClient {
     @GET("tv/{tv_id}")
     fun getTvShowDetails(@Path("tv_id") tvId: String?,
                          @Query("api_key") apiKey: String?
-    ) : Call<TvShowsEntity>
+    ) : Call<TvShowsResponse>
 }

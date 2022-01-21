@@ -1,5 +1,6 @@
 package com.latihan.rmovies.ui.movies
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
@@ -12,10 +13,11 @@ import com.latihan.rmovies.vo.Resource
 
 class MoviesViewModel(private val dataRepository: DataRepository) : ViewModel() {
 
-    fun getData(): LiveData<ApiResponse<List<Movies>>> = RemoteRepository.getInstance().getMovies()
-
     fun getListMovies(): LiveData<Resource<PagedList<MoviesEntity>>> = dataRepository.getMovies()
 
-    fun getDetailMovie(movieId: String): LiveData<MoviesEntity> = dataRepository.getMovieDetail(movieId)
+    fun getDetailMovie(movieId: String): LiveData<Resource<MoviesEntity>> = dataRepository.getMovieDetail(movieId)
 
+    fun setFavMovies(moviesEntity: MoviesEntity,newState: Boolean) {
+        dataRepository.setFavMovies(moviesEntity, newState)
+    }
 }

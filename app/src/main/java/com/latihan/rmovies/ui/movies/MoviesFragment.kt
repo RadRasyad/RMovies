@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.latihan.rmovies.databinding.FragmentMoviesBinding
 import com.latihan.rmovies.ui.adapter.MoviesAdapter
+import com.latihan.rmovies.ui.favorite.FavoriteViewModel
 import com.latihan.rmovies.utils.ViewModelFactory
 import com.latihan.rmovies.vo.Status
 
@@ -32,25 +33,6 @@ class MoviesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         getMovies()
-        /*
-        val factory = ViewModelFactory.getInstance(requireActivity())
-        val moviesViewModel = ViewModelProviders.of(requireActivity(), factory)[MoviesViewModel::class.java]
-        moviesViewModel.getData().observe(viewLifecycleOwner, Observer {
-            val moviesAdapter = TestAdapter()
-            if (it!=null) {
-                moviesAdapter.add(it)
-                progressBar(false)
-            }
-            with(binding.rvMovies){
-                this.layoutManager = LinearLayoutManager(context)
-                this.adapter = moviesAdapter
-                this.setHasFixedSize(true)
-            }
-        })
-
-         */
-
-
 
     }
 
@@ -64,7 +46,6 @@ class MoviesFragment : Fragment() {
                 when(it.status) {
                     Status.LOADING -> progressBar(true)
                     Status.SUCCESS -> {
-                        Log.d("fData", it.data?.size.toString())
                         mAdapter.submitList(it.data)
                         progressBar(false)
                     }

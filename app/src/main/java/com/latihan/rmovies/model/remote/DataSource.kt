@@ -9,8 +9,8 @@ import com.latihan.rmovies.vo.Resource
 interface DataSource {
 
     fun getMovies(): LiveData<Resource<PagedList<MoviesEntity>>>
-    fun getMovieDetail(movieId: String): LiveData<MoviesEntity>
+    fun getMovieDetail(movieId: String): LiveData<Resource<MoviesEntity>>
 
     fun getTvShows(): LiveData<Resource<PagedList<TvShowsEntity>>>
-    fun getTvShowDetail(tvShowId: String): LiveData<TvShowsEntity>
+    fun getTvShowDetail(tvShowId: String): LiveData<Resource<TvShowsEntity>>
 }

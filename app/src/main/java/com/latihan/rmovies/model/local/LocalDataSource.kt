@@ -13,14 +13,32 @@ class LocalDataSource private constructor(private val mCDao: CDao) {
 
     fun getMovieDetail(movieId: String): LiveData<MoviesEntity> = mCDao.getMovieDetail(movieId)
 
-    fun updateMovies(moviesEntity: ArrayList<MoviesEntity>) = mCDao.updateMovies(moviesEntity)
+    fun insertMovies(moviesEntity: ArrayList<MoviesEntity>) = mCDao.insertMovies(moviesEntity)
+
+    fun updateMovies(moviesEntity: MoviesEntity) = mCDao.updateMovies(moviesEntity)
+
+    fun setFavMovies(movies: MoviesEntity, state: Boolean) {
+        movies.favoriteMovies = state
+        mCDao.updateMovies(movies)
+    }
+
+    fun getFavMovies(): DataSource.Factory<Int, MoviesEntity> = mCDao.getFavoriteMovies()
 
 
     fun getShows(): DataSource.Factory<Int, TvShowsEntity> = mCDao.getTvShows()
 
     fun getShowDetail(showId: String): LiveData<TvShowsEntity> = mCDao.getTvShowDetail(showId)
 
+    fun insertShows(showsEntity: ArrayList<TvShowsEntity>) = mCDao.insertShows(showsEntity)
+
     fun updateShows(showsEntity: TvShowsEntity) = mCDao.updateShows(showsEntity)
+
+    fun setFavShows(shows: TvShowsEntity, state: Boolean) {
+        shows.favoriteShow = state
+        mCDao.updateShows(shows)
+    }
+
+    fun getFavShow(): DataSource.Factory<Int, TvShowsEntity> = mCDao.getFavoriteTvShow()
 
     companion object {
         private var INSTANCE: LocalDataSource? = null

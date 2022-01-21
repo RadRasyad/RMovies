@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.latihan.rmovies.di.Injection
 import com.latihan.rmovies.model.DataRepository
+import com.latihan.rmovies.ui.favorite.FavoriteViewModel
 import com.latihan.rmovies.ui.movies.MoviesViewModel
 import com.latihan.rmovies.ui.tvshows.TvShowsViewModel
 
@@ -32,6 +33,10 @@ class ViewModelFactory(private val dataRepository: DataRepository) :
             ) as T
 
             modelClass.isAssignableFrom(TvShowsViewModel::class.java) -> TvShowsViewModel(
+                dataRepository
+            ) as T
+
+            modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel(
                 dataRepository
             ) as T
 

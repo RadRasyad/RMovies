@@ -18,13 +18,13 @@ data class TvShowsEntity(
     @SerializedName("name")
     val name: String?,
 
-    @ColumnInfo(name = "firstAirDate")
-    @SerializedName("first_air_date")
-    val firstAirDate: String?,
-
     @ColumnInfo(name = "overview")
     @SerializedName("overview")
     val overview: String?,
+
+    @ColumnInfo(name = "firstAirDate")
+    @SerializedName("first_air_date")
+    val firstAirDate: String?,
 
     @ColumnInfo(name = "voteAverage")
     @SerializedName("vote_average")
@@ -36,5 +36,10 @@ data class TvShowsEntity(
 
     @ColumnInfo(name = "backdropPath")
     @SerializedName("backdrop_path")
-    val backdropPath: String?
+    val backdropPath: String?,
+
+    @ColumnInfo(name = "favorite")
+    @SerializedName("favorite")
+    var favoriteShow: Boolean = false
+
 )

@@ -3,6 +3,9 @@ package com.latihan.rmovies.ui.adapter
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedList
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.latihan.rmovies.R
@@ -11,24 +14,19 @@ import com.latihan.rmovies.model.local.entity.MoviesEntity
 import com.latihan.rmovies.model.local.entity.TvShowsEntity
 import com.latihan.rmovies.ui.detail.DetailActivity
 
-class TvShowsAdapter : RecyclerView.Adapter<TvShowsAdapter.ViewHolder>() {
-
-    private var listShows: List<TvShowsEntity> = emptyList()
-
-    fun showsAdapter(shows: List<TvShowsEntity>) {
-        this.listShows = shows
-        notifyDataSetChanged()
-    }
+class TvShowsAdapter : PagedListAdapter<TvShowsEntity, TvShowsAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = listShows.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindViewHolder(listShows[position])
+        val shows = getItem(position)
+        if (shows!=null) {
+            holder.bindViewHolder(shows)
+        }
     }
 
     inner class ViewHolder(private val binding: ItemRowBinding) :
@@ -47,6 +45,18 @@ class TvShowsAdapter : RecyclerView.Adapter<TvShowsAdapter.ViewHolder>() {
                 val intent = Intent(itemView.context, DetailActivity::class.java)
                 intent.putExtra(DetailActivity.EXTRA_SHOW, listShows.id.toString())
                 itemView.context.startActivity(intent)
+            }
+        }
+    }
+
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TvShowsEntity>() {
+            override fun areItemsTheSame(oldItem: TvShowsEntity, newItem: TvShowsEntity): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: TvShowsEntity, newItem: TvShowsEntity): Boolean {
+                return oldItem == newItem
             }
         }
     }

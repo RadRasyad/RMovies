@@ -20,7 +20,10 @@ interface CDao {
     fun insertMovies(movies: List<MoviesEntity>)
 
     @Update
-    fun updateMovies(movies: ArrayList<MoviesEntity>)
+    fun updateMovies(movies: MoviesEntity)
+
+    @Query("SELECT * FROM movie WHERE favorite = 1")
+    fun getFavoriteMovies(): DataSource.Factory<Int, MoviesEntity>
 
 
     @Query("SELECT * FROM tvshow")
@@ -35,4 +38,6 @@ interface CDao {
     @Update
     fun updateShows(shows: TvShowsEntity)
 
+    @Query("SELECT * FROM tvshow WHERE favorite = 1")
+    fun getFavoriteTvShow(): DataSource.Factory<Int, TvShowsEntity>
 }
