@@ -27,8 +27,19 @@ class DataRepository(private val remoteRepository: RemoteRepository, private val
                 return LivePagedListBuilder(localDataSource.getMovies(), config).build()
             }
 
-            override fun shouldFetch(data: PagedList<MoviesEntity>?): Boolean =
-                data == null || data.isEmpty()
+            override fun shouldFetch(data: PagedList<MoviesEntity>?): Boolean {
+                var state = true
+                if (data == null || data.isEmpty()) {
+                    state = true
+                }
+                else if (!data.isEmpty()) {
+                    state = false
+                }
+
+                return state
+            }
+
+
 
             override fun createCall(): LiveData<ApiResponse<List<Movies>>> = remoteRepository.getMovies()
 
@@ -152,11 +163,10 @@ class DataRepository(private val remoteRepository: RemoteRepository, private val
         }.asLiveData()
     }
 
-    fun setFavMovies(moviesEntity: MoviesEntity, state: Boolean) {
-        return appExecutors.diskIO().execute{
+    fun setFavMovies(moviesEntity: MoviesEntity, state: Boolean) =
+        appExecutors.diskIO().execute {
             localDataSource.setFavMovies(moviesEntity, state)
         }
-    }
 
     fun setFavShows(showsEntity: TvShowsEntity, state: Boolean) {
         return appExecutors.diskIO().execute{
@@ -164,13 +174,22 @@ class DataRepository(private val remoteRepository: RemoteRepository, private val
         }
     }
 
-    fun getFavMovies(): LiveData<PagedList<MoviesEntity>> {
+    fun getFavMovies(sort: String): LiveData<PagedList<MoviesEntity>> {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setInitialLoadSizeHint(10)
             .setPageSize(10)
             .build()
-        return LivePagedListBuilder(localDataSource.getFavMovies(), config).build()
+        return LivePagedListBuilder(localDataSource.getFavMovies(sort), config).build()
+    }
+
+    fun getFavShows(): LiveData<PagedList<TvShowsEntity>> {
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setInitialLoadSizeHint(10)
+            .setPageSize(10)
+            .build()
+        return LivePagedListBuilder(localDataSource.getFavShows(), config).build()
     }
 
     companion object {

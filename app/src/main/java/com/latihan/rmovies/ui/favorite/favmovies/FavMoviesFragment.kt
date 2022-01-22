@@ -13,6 +13,7 @@ import com.latihan.rmovies.R
 import com.latihan.rmovies.databinding.FragmentFavMoviesBinding
 import com.latihan.rmovies.ui.adapter.MoviesAdapter
 import com.latihan.rmovies.ui.favorite.FavoriteViewModel
+import com.latihan.rmovies.utils.SortUtils
 import com.latihan.rmovies.utils.ViewModelFactory
 
 
@@ -33,16 +34,28 @@ class FavMoviesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getFavMovies()
+        sortList()
     }
 
+    private fun sortList() {
+        val newest = binding.newest
+        val oldest = binding.oldest
+        var sort = " "
+        if (newest.isChecked) {
+            sort = SortUtils.NEWEST
+        }
+        else if (oldest.isChecked) {
+            sort = SortUtils.OLDEST
+        }
+        getFavMovies(sort)
+    }
 
-    private fun getFavMovies() {
+    private fun getFavMovies(sort: String) {
 
         val fmAdapter = MoviesAdapter()
         val factory = ViewModelFactory.getInstance(requireActivity())
-        favViewModel = ViewModelProviders.of(requireActivity(), factory)[FavoriteViewModel::class.java]
-        favViewModel.getFavMovies().observe(viewLifecycleOwner, Observer {
+        favViewModel = ViewModelProvider(requireActivity(), factory!!)[FavoriteViewModel::class.java]
+        favViewModel.getFavMovies(sort).observe(viewLifecycleOwner, Observer {
             if (it!=null) {
                 fmAdapter.submitList(it)
                 progressBar(false)

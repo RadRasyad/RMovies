@@ -15,8 +15,7 @@ class TvShowsViewModel(private val dataRepository: DataRepository) : ViewModel()
     fun getDetailShow(showsId: String): LiveData<Resource<TvShowsEntity>> =
         dataRepository.getTvShowDetail(showsId)
 
-    fun setFavShows(showsEntity: TvShowsEntity) {
-        val newState = !showsEntity.favoriteShow
+    fun setFavShows(showsEntity: TvShowsEntity, newState: Boolean) =
         dataRepository.setFavShows(showsEntity, newState)
-    }
+
 }

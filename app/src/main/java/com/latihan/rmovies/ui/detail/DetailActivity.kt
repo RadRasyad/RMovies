@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.latihan.rmovies.R
@@ -56,10 +57,11 @@ class DetailActivity : AppCompatActivity() {
     private fun getDetailMovie(movie: String) {
 
         val factory = ViewModelFactory.getInstance(this)
-        moviesViewModel = ViewModelProviders.of(this, factory)[MoviesViewModel::class.java]
+        moviesViewModel = ViewModelProvider(this, factory!!)[MoviesViewModel::class.java]
 
         moviesViewModel.getDetailMovie(movie).observe(this, {
             progressBar(true)
+            if (it.data!=null)
             loadDataMovie(it.data)
             progressBar(false)
         })
@@ -80,66 +82,73 @@ class DetailActivity : AppCompatActivity() {
 
     private fun loadDataMovie(movie: MoviesEntity?) {
 
-        binding.apply {
-            mtitleValue.text = movie?.title ?: "-"
-            mreleaseValue.text = movie?.releasedDate ?: "-"
-            mstarValue.text = movie?.voteAverage.toString()
-            moverviewValue.text = movie?.overview ?: "No overview yet"
-            if (movie?.backdropPath == null) {
-                binding.mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${movie?.posterPath}")
+        if (movie!=null) {
+            setStatusFavorite(movie.favoriteMovies)
+            binding.apply {
+                mtitleValue.text = movie.title ?: "-"
+                mreleaseValue.text = movie.releasedDate ?: "-"
+                mstarValue.text = movie.voteAverage.toString()
+                moverviewValue.text = movie.overview ?: "No overview yet"
+                if (movie.backdropPath == null) {
+                    binding.mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+                }
+                binding.mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${movie.backdropPath}")
+                binding.mivPoster.loadImage("https://image.tmdb.org/t/p/w500${movie.posterPath}")
             }
-            binding.mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${movie?.backdropPath}")
-            binding.mivPoster.loadImage("https://image.tmdb.org/t/p/w500${movie?.posterPath}")
-        }
-        Log.d("first fav State", movie?.favoriteMovies.toString())
 
-        binding.fabFavorite.setOnClickListener{
-            if (movie != null) {
-                setFavorite(dataType)
+            binding.fabFavorite.setOnClickListener{
+                val state = movie.favoriteMovies
+                setFavoriteMovie(movie, state)
             }
-            Log.d("fav State", movie?.favoriteMovies.toString())
         }
 
     }
 
     private fun loadDataShow(shows: TvShowsEntity?) {
 
-        binding.apply {
-            mtitleValue.text = shows?.name ?: "-"
-            mreleaseValue.text = shows?.firstAirDate ?: "-"
-            mstarValue.text = shows?.voteAverage.toString()
-            moverviewValue.text = shows?.overview ?: "No overview yet"
-            if (shows?.backdropPath != null) {
-                binding.mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${shows.backdropPath}")
-            } else {
-                binding.mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${shows?.posterPath}")
+        if (shows!=null) {
+            setStatusFavorite(shows.favoriteShow)
+            binding.apply {
+                mtitleValue.text = shows.name ?: "-"
+                mreleaseValue.text = shows.firstAirDate ?: "-"
+                mstarValue.text = shows.voteAverage.toString()
+                moverviewValue.text = shows.overview ?: "No overview yet"
+                if (shows.backdropPath != null) {
+                    binding.mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${shows.backdropPath}")
+                } else {
+                    binding.mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${shows.posterPath}")
+                }
+                binding.mivPoster.loadImage("https://image.tmdb.org/t/p/w500${shows.posterPath}")
             }
-            binding.mivPoster.loadImage("https://image.tmdb.org/t/p/w500${shows?.posterPath}")
+            binding.fabFavorite.setOnClickListener{
+                val state = shows.favoriteShow
+                setFavoriteShow(shows, state)
+            }
+        }
+
+    }
+
+    private fun setFavoriteMovie(movie: MoviesEntity, state: Boolean) {
+        val factory = ViewModelFactory.getInstance(this)
+        moviesViewModel = ViewModelProvider(this, factory!!)[MoviesViewModel::class.java]
+        if (!state) {
+            moviesViewModel.setFavMovies(movie, true)
+            Toast.makeText(this, "Favorited", LENGTH_LONG).show()
+        } else if (state) {
+            moviesViewModel.setFavMovies(movie, false)
+            Toast.makeText(this, "Unfavorite", LENGTH_LONG).show()
         }
     }
 
-    private fun setFavorite(dataType: String) {
-        if (dataType == "movies") {
-            lateinit var movie: MoviesEntity
-            if (movie.favoriteMovies == false) {
-                moviesViewModel.setFavMovies(movie,true)
-                Log.d("on Change", movie.favoriteMovies.toString())
-                Toast.makeText(this, "Favorited", LENGTH_LONG).show()
-            } else {
-                moviesViewModel.setFavMovies(movie,false)
-                Toast.makeText(this, "Unfavorite", LENGTH_LONG).show()
-            }
-        } else if (dataType == "shows") {
-            lateinit var shows: TvShowsEntity
-            if (shows.favoriteShow != true) {
-                showsViewModel.setFavShows(shows)
-                setStatusFavorite(shows.favoriteShow)
-                Toast.makeText(this, "Favorited", LENGTH_LONG).show()
-            } else {
-                showsViewModel.setFavShows(shows)
-                setStatusFavorite(shows.favoriteShow)
-                Toast.makeText(this, "Unfavorite", LENGTH_LONG).show()
-            }
+    private fun setFavoriteShow(shows: TvShowsEntity, state: Boolean) {
+        val factory = ViewModelFactory.getInstance(this)
+        showsViewModel = ViewModelProviders.of(this, factory)[TvShowsViewModel::class.java]
+        if (!state) {
+            showsViewModel.setFavShows(shows, true)
+            Toast.makeText(this, "Favorited", LENGTH_LONG).show()
+        } else if (state) {
+            showsViewModel.setFavShows(shows, false)
+            Toast.makeText(this, "Unfavorite", LENGTH_LONG).show()
         }
     }
 

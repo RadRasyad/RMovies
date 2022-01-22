@@ -3,6 +3,7 @@ package com.latihan.rmovies.model.local.room
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.latihan.rmovies.model.local.entity.MoviesEntity
 import com.latihan.rmovies.model.local.entity.TvShowsEntity
 
@@ -22,8 +23,8 @@ interface CDao {
     @Update
     fun updateMovies(movies: MoviesEntity)
 
-    @Query("SELECT * FROM movie WHERE favorite = 1")
-    fun getFavoriteMovies(): DataSource.Factory<Int, MoviesEntity>
+    @RawQuery(observedEntities = [MoviesEntity::class])
+    fun getFavoriteMovies(query: SimpleSQLiteQuery): DataSource.Factory<Int, MoviesEntity>
 
 
     @Query("SELECT * FROM tvshow")

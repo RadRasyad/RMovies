@@ -167,9 +167,13 @@
         android:id="@+id/fab_favorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_heart_add_line_"
-        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:contentDescription="@string/favorite_button" />
+        android:clickable="true"
+        app:fabSize="normal"
+        android:layout_gravity="bottom|end"
+        app:layout_anchorGravity="bottom|end"
+        android:contentDescription="@string/favorite_button"
+        app:srcCompat="@drawable/ic_heart_fill"
+        android:focusable="true" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
