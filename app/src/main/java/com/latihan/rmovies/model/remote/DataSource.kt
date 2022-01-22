@@ -13,4 +13,5 @@ interface DataSource {
 
     fun getTvShows(): LiveData<Resource<PagedList<TvShowsEntity>>>
     fun getTvShowDetail(tvShowId: String): LiveData<Resource<TvShowsEntity>>
+
 }

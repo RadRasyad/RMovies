@@ -1,7 +1,5 @@
 package com.latihan.rmovies.network
 
-import com.latihan.rmovies.model.local.entity.MoviesEntity
-import com.latihan.rmovies.model.local.entity.TvShowsEntity
 import com.latihan.rmovies.model.remote.response.MoviesResponse
 import com.latihan.rmovies.model.remote.response.TvShowsResponse
 import retrofit2.Call
@@ -16,13 +14,14 @@ interface ApiClient {
     @GET("movie/{movie_id}")
     fun getDetailsMovie(@Path("movie_id") movieId: String?,
                         @Query("api_key") apiKey: String?
-    ) : Call<MoviesResponse>
+    ): Call<MoviesResponse>
 
     @GET("tv/popular")
-    fun getTvShows(@Query("api_key") apiKey: String?) : Call<TvShowsResponse>
+    fun getTvShows(@Query("api_key") apiKey: String?): Call<TvShowsResponse>
 
     @GET("tv/{tv_id}")
     fun getTvShowDetails(@Path("tv_id") tvId: String?,
                          @Query("api_key") apiKey: String?
-    ) : Call<TvShowsResponse>
+    ): Call<TvShowsResponse>
+
 }

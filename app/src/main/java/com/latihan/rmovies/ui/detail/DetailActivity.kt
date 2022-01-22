@@ -95,7 +95,7 @@ class DetailActivity : AppCompatActivity() {
 
         binding.fabFavorite.setOnClickListener{
             if (movie != null) {
-                setFavorite(dataType, movie)
+                setFavorite(dataType)
             }
             Log.d("fav State", movie?.favoriteMovies.toString())
         }
@@ -116,11 +116,11 @@ class DetailActivity : AppCompatActivity() {
             }
             binding.mivPoster.loadImage("https://image.tmdb.org/t/p/w500${shows?.posterPath}")
         }
-
     }
 
-    private fun setFavorite(dataType: String, movie: MoviesEntity) {
+    private fun setFavorite(dataType: String) {
         if (dataType == "movies") {
+            lateinit var movie: MoviesEntity
             if (movie.favoriteMovies == false) {
                 moviesViewModel.setFavMovies(movie,true)
                 Log.d("on Change", movie.favoriteMovies.toString())

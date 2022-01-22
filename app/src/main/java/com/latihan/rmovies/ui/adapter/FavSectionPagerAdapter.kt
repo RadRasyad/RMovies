@@ -5,9 +5,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.latihan.rmovies.ui.favorite.FavoriteFragment
 import com.latihan.rmovies.ui.favorite.favmovies.FavMoviesFragment
 import com.latihan.rmovies.ui.favorite.favshows.FavShowsFragment
-import com.latihan.rmovies.ui.home.HomeFragment
-import com.latihan.rmovies.ui.movies.MoviesFragment
-import com.latihan.rmovies.ui.tvshows.TvShowsFragment
 
 class FavSectionPagerAdapter(activity: FavoriteFragment) :
     FragmentStateAdapter(activity) {

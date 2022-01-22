@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/home"
+        android:id="@+id/movies"
         android:icon="@drawable/nav_home_selector"
-        android:title="Home" />
+        android:title="Movies" />
 
     <item
-        android:id="@+id/search"
+        android:id="@+id/tvshows"
         android:icon="@drawable/nav_search_selector"
-        android:title="Search" />
+        android:title="Tv Shows" />
 
     <item
         android:id="@+id/favorite"

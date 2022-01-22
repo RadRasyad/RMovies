@@ -32,7 +32,6 @@ data class MoviesEntity(
     val backdropPath: String?,
 
     @ColumnInfo(name = "favorite")
-    @SerializedName("favorite")
     var favoriteMovies: Boolean = false
 
 )

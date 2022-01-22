@@ -1,18 +1,11 @@
 package com.latihan.rmovies.model.remote
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.latihan.rmovies.BuildConfig
-import com.latihan.rmovies.model.local.entity.MoviesEntity
-import com.latihan.rmovies.model.local.entity.TvShowsEntity
-import com.latihan.rmovies.model.remote.response.Movies
-import com.latihan.rmovies.model.remote.response.MoviesResponse
-import com.latihan.rmovies.model.remote.response.TvShows
-import com.latihan.rmovies.model.remote.response.TvShowsResponse
+import com.latihan.rmovies.model.remote.response.*
 import com.latihan.rmovies.network.ApiConfig
 import com.latihan.rmovies.utils.EspressoIdlingResource
-import com.latihan.rmovies.vo.Resource
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

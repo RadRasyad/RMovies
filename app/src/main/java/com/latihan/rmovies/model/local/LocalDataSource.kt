@@ -38,8 +38,6 @@ class LocalDataSource private constructor(private val mCDao: CDao) {
         mCDao.updateShows(shows)
     }
 
-    fun getFavShow(): DataSource.Factory<Int, TvShowsEntity> = mCDao.getFavoriteTvShow()
-
     companion object {
         private var INSTANCE: LocalDataSource? = null
 

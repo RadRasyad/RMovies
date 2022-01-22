@@ -40,4 +40,6 @@ interface CDao {
 
     @Query("SELECT * FROM tvshow WHERE favorite = 1")
     fun getFavoriteTvShow(): DataSource.Factory<Int, TvShowsEntity>
+
+
 }

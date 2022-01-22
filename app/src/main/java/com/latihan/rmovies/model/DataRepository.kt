@@ -1,7 +1,6 @@
 package com.latihan.rmovies.model
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.latihan.rmovies.model.local.LocalDataSource
@@ -44,6 +43,7 @@ class DataRepository(private val remoteRepository: RemoteRepository, private val
                         response.voteAverage,
                         response.posterPath,
                         response.backdropPath,
+                        favoriteMovies = false
                     )
                     movieList.add(movie)
                 }
@@ -81,6 +81,7 @@ class DataRepository(private val remoteRepository: RemoteRepository, private val
                         response.voteAverage,
                         response.posterPath,
                         response.backdropPath,
+                        favoriteShow = false
                     )
                     showList.add(show)
                 }

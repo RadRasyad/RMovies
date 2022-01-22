@@ -1,6 +1,5 @@
 package com.latihan.rmovies.ui.movies
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
@@ -20,4 +19,5 @@ class MoviesViewModel(private val dataRepository: DataRepository) : ViewModel() 
     fun setFavMovies(moviesEntity: MoviesEntity,newState: Boolean) {
         dataRepository.setFavMovies(moviesEntity, newState)
     }
+
 }
