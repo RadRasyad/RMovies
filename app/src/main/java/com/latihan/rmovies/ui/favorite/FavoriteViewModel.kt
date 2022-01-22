@@ -11,5 +11,5 @@ class FavoriteViewModel(private val dataRepository: DataRepository): ViewModel()
 
     fun getFavMovies(sort: String): LiveData<PagedList<MoviesEntity>> = dataRepository.getFavMovies(sort)
 
-    fun getFavShow(): LiveData<PagedList<TvShowsEntity>> = dataRepository.getFavShows()
+    fun getFavShow(sort: String): LiveData<PagedList<TvShowsEntity>> = dataRepository.getFavShows(sort)
 }

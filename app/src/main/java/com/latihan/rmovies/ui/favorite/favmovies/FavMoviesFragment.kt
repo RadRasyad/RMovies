@@ -1,14 +1,17 @@
 package com.latihan.rmovies.ui.favorite.favmovies
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.children
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.chip.Chip
 import com.latihan.rmovies.R
 import com.latihan.rmovies.databinding.FragmentFavMoviesBinding
 import com.latihan.rmovies.ui.adapter.MoviesAdapter
@@ -34,20 +37,26 @@ class FavMoviesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getFavMovies(SortUtils.DEFAULT)
         sortList()
     }
 
     private fun sortList() {
-        val newest = binding.newest
-        val oldest = binding.oldest
-        var sort = " "
-        if (newest.isChecked) {
-            sort = SortUtils.NEWEST
+        var sort = ""
+        val cGroup = binding.chipGroup
+        cGroup.setOnCheckedChangeListener { group, checkedId ->
+            val title = group.findViewById<Chip>(checkedId).text
+            sort = title.toString()
+            when(sort) {
+
+                "Vote Average" -> sort = SortUtils.VOTE
+                "Name" -> sort = SortUtils.NAME
+                "Default" -> sort = SortUtils.DEFAULT
+            }
+
+            getFavMovies(sort)
         }
-        else if (oldest.isChecked) {
-            sort = SortUtils.OLDEST
-        }
-        getFavMovies(sort)
+
     }
 
     private fun getFavMovies(sort: String) {
@@ -73,7 +82,6 @@ class FavMoviesFragment : Fragment() {
     private fun progressBar(state: Boolean) {
         if (!state) binding.progressBar.visibility = View.GONE
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

@@ -1,6 +1,7 @@
 package com.latihan.rmovies.model.local
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import com.latihan.rmovies.model.local.entity.MoviesEntity
@@ -24,7 +25,7 @@ class LocalDataSource private constructor(private val mCDao: CDao) {
     }
 
     fun getFavMovies(sort: String): DataSource.Factory<Int, MoviesEntity> {
-        val query = SortUtils.getSortedQuery(sort)
+        val query = SortUtils.getSortedMovies(sort)
         return mCDao.getFavoriteMovies(query)
     }
 
@@ -42,7 +43,10 @@ class LocalDataSource private constructor(private val mCDao: CDao) {
         mCDao.updateShows(shows)
     }
 
-    fun getFavShows(): DataSource.Factory<Int, TvShowsEntity> = mCDao.getFavoriteTvShow()
+    fun getFavShows(sort: String): DataSource.Factory<Int, TvShowsEntity> {
+        val query = SortUtils.getSortedShows(sort)
+        return mCDao.getFavoriteTvShow(query)
+    }
 
     companion object {
         private var INSTANCE: LocalDataSource? = null

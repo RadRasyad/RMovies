@@ -39,8 +39,8 @@ interface CDao {
     @Update
     fun updateShows(shows: TvShowsEntity)
 
-    @Query("SELECT * FROM tvshow WHERE favorite = 1")
-    fun getFavoriteTvShow(): DataSource.Factory<Int, TvShowsEntity>
+    @RawQuery(observedEntities = [TvShowsEntity::class])
+    fun getFavoriteTvShow(query: SimpleSQLiteQuery): DataSource.Factory<Int, TvShowsEntity>
 
 
 }

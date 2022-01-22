@@ -8,25 +8,36 @@
     tools:context=".ui.movies.MoviesFragment">
 
     <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:singleSelection="true">
+        app:singleSelection="true"
+        app:selectionRequired="true">
 
         <com.google.android.material.chip.Chip
+            android:id="@+id/default_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Newest"
+            android:text="Default"
             android:checked="true"
             style="@style/Widget.MaterialComponents.Chip.Filter"/>
 
         <com.google.android.material.chip.Chip
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Longest"
+            android:text="Name"
+            style="@style/Widget.MaterialComponents.Chip.Filter"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/vote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vote Average"
             style="@style/Widget.MaterialComponents.Chip.Filter"/>
     </com.google.android.material.chip.ChipGroup>
 

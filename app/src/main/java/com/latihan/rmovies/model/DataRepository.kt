@@ -183,13 +183,13 @@ class DataRepository(private val remoteRepository: RemoteRepository, private val
         return LivePagedListBuilder(localDataSource.getFavMovies(sort), config).build()
     }
 
-    fun getFavShows(): LiveData<PagedList<TvShowsEntity>> {
+    fun getFavShows(sort: String): LiveData<PagedList<TvShowsEntity>> {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setInitialLoadSizeHint(10)
             .setPageSize(10)
             .build()
-        return LivePagedListBuilder(localDataSource.getFavShows(), config).build()
+        return LivePagedListBuilder(localDataSource.getFavShows(sort), config).build()
     }
 
     companion object {

@@ -9,11 +9,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.chip.Chip
 import com.latihan.rmovies.R
 import com.latihan.rmovies.databinding.FragmentFavShowsBinding
 import com.latihan.rmovies.ui.adapter.MoviesAdapter
 import com.latihan.rmovies.ui.adapter.TvShowsAdapter
 import com.latihan.rmovies.ui.favorite.FavoriteViewModel
+import com.latihan.rmovies.utils.SortUtils
 import com.latihan.rmovies.utils.ViewModelFactory
 
 
@@ -35,15 +37,34 @@ class FavShowsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getFavShow()
+        getFavShow(SortUtils.DEFAULT)
+        sortList()
     }
 
-    private fun getFavShow() {
+    private fun sortList() {
+        var sort = ""
+        val cGroup = binding.chipGroup
+        cGroup.setOnCheckedChangeListener { group, checkedId ->
+            val title = group.findViewById<Chip>(checkedId).text
+            sort = title.toString()
+            when(sort) {
+
+                "Vote Average" -> sort = SortUtils.VOTE
+                "Name" -> sort = SortUtils.NAME
+                "Default" -> sort = SortUtils.DEFAULT
+            }
+
+            getFavShow(sort)
+        }
+
+    }
+
+    private fun getFavShow(sort: String) {
 
         val fsAdapter = TvShowsAdapter()
         val factory = ViewModelFactory.getInstance(requireActivity())
         favViewModel = ViewModelProvider(requireActivity(), factory!!)[FavoriteViewModel::class.java]
-        favViewModel.getFavShow().observe(viewLifecycleOwner, Observer {
+        favViewModel.getFavShow(sort).observe(viewLifecycleOwner, Observer {
             if (it!=null) {
                 fsAdapter.submitList(it)
                 progressBar(false)
