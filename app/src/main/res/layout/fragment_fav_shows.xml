@@ -19,7 +19,7 @@
         app:selectionRequired="true">
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/default_chip"
+            android:id="@+id/sdefault_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/_strdefault"
@@ -28,7 +28,7 @@
             style="@style/Widget.MaterialComponents.Chip.Filter"/>
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/name"
+            android:id="@+id/sname_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/name"
@@ -36,7 +36,7 @@
             style="@style/Widget.MaterialComponents.Chip.Filter"/>
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/vote"
+            android:id="@+id/svote_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/vote_average"
