@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.latihan.rmovies.databinding.FragmentMoviesBinding
@@ -36,32 +35,34 @@ class MoviesFragment : Fragment() {
 
     private fun getMovies() {
 
-        progressBar(true)
-        val mAdapter = MoviesAdapter()
-        val factory = ViewModelFactory.getInstance(requireActivity())
-        val moviesViewModel =
-            ViewModelProvider(requireActivity(), factory!!)[MoviesViewModel::class.java]
+        if(activity!=null) {
+            progressBar(true)
+            val mAdapter = MoviesAdapter()
+            val factory = ViewModelFactory.getInstance(requireActivity())
+            val moviesViewModel =
+                ViewModelProvider(requireActivity(), factory!!)[MoviesViewModel::class.java]
 
-        moviesViewModel.getListMovies().observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                when (it.status) {
-                    Status.LOADING -> progressBar(true)
-                    Status.SUCCESS -> {
-                        mAdapter.submitList(it.data)
-                        progressBar(false)
-                    }
-                    Status.ERROR -> {
-                        progressBar(false)
-                        Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+            moviesViewModel.getListMovies().observe(viewLifecycleOwner, {
+                if (it != null) {
+                    when (it.status) {
+                        Status.LOADING -> progressBar(true)
+                        Status.SUCCESS -> {
+                            mAdapter.submitList(it.data)
+                            progressBar(false)
+                        }
+                        Status.ERROR -> {
+                            progressBar(false)
+                            Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
-            }
 
-        })
-        with(binding.rvMovies) {
-            this.layoutManager = LinearLayoutManager(context)
-            this.adapter = mAdapter
-            this.setHasFixedSize(true)
+            })
+            with(binding.rvMovies) {
+                this.layoutManager = LinearLayoutManager(context)
+                this.adapter = mAdapter
+                this.setHasFixedSize(true)
+            }
         }
 
     }

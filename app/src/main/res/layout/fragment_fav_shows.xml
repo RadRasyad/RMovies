@@ -22,22 +22,25 @@
             android:id="@+id/default_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Default"
+            android:text="@string/_strdefault"
             android:checked="true"
+            app:checkedIconTint="@color/secondary_color"
             style="@style/Widget.MaterialComponents.Chip.Filter"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name"
+            android:text="@string/name"
+            app:checkedIconTint="@color/secondary_color"
             style="@style/Widget.MaterialComponents.Chip.Filter"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/vote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Vote Average"
+            android:text="@string/vote_average"
+            app:checkedIconTint="@color/secondary_color"
             style="@style/Widget.MaterialComponents.Chip.Filter"/>
     </com.google.android.material.chip.ChipGroup>
 

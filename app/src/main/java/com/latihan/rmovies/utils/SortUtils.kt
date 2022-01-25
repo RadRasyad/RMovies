@@ -9,7 +9,7 @@ object SortUtils {
     const val VOTE = "VoteAverage"
 
     fun getSortedMovies(filter: String): SimpleSQLiteQuery {
-        val simpleQuery = StringBuilder().append("SELECT * FROM movie WHERE favorite = 1 ")
+        val simpleQuery = StringBuilder().append("SELECT * FROM favorite_movies ")
         when (filter) {
             NAME -> {
                 simpleQuery.append("ORDER BY title ASC")
@@ -25,7 +25,7 @@ object SortUtils {
     }
 
     fun getSortedShows(filter: String): SimpleSQLiteQuery {
-        val simpleQuery = StringBuilder().append("SELECT * FROM tvshow WHERE favorite = 1 ")
+        val simpleQuery = StringBuilder().append("SELECT * FROM favorite_show ")
         when (filter) {
             NAME -> {
                 simpleQuery.append("ORDER BY name ASC")

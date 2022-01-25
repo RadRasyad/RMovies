@@ -4,9 +4,10 @@ import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "movie")
-data class MoviesEntity(
+@Entity(tableName = "favorite_movies")
+data class FavoriteMoviesEntity(
 
     @PrimaryKey
     @NonNull
@@ -16,11 +17,11 @@ data class MoviesEntity(
     @ColumnInfo(name = "title")
     val title: String?,
 
-    @ColumnInfo(name = "overview")
-    val overview: String?,
-
     @ColumnInfo(name = "releasedDate")
     val releasedDate: String?,
+
+    @ColumnInfo(name = "overview")
+    val overview: String?,
 
     @ColumnInfo(name = "voteAverage")
     val voteAverage: Double?,
@@ -29,6 +30,6 @@ data class MoviesEntity(
     val posterPath: String?,
 
     @ColumnInfo(name = "backdropPath")
-    val backdropPath: String?
+    val backdropPath: String?,
 
 )

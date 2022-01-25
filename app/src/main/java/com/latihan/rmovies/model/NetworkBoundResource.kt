@@ -59,11 +59,6 @@ abstract class NetworkBoundResource<ResultType, RequestType>(private val mExecut
                             }
                         }
                     }
-                StatusResponse.EMPTY -> mExecutors.mainThread().execute {
-                    result.addSource(loadFromDB()) { newData ->
-                        result.value = Resource.success(newData)
-                    }
-                }
                 StatusResponse.ERROR -> {
                     onFetchFailed()
                     result.addSource(dbSource) { newData ->

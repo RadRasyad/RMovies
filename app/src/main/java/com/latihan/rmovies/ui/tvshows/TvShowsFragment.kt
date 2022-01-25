@@ -1,13 +1,11 @@
 package com.latihan.rmovies.ui.tvshows
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.latihan.rmovies.databinding.FragmentTvShowsBinding
@@ -42,13 +40,12 @@ class TvShowsFragment : Fragment() {
         val tvShowsViewModel =
             ViewModelProvider(requireActivity(), factory!!)[TvShowsViewModel::class.java]
 
-        tvShowsViewModel.getListShows().observe(viewLifecycleOwner, Observer {
+        tvShowsViewModel.getListShows().observe(viewLifecycleOwner,{
 
             if (it != null) {
                 when (it.status) {
                     Status.LOADING -> progressBar(true)
                     Status.SUCCESS -> {
-                        Log.d("fData", it.data?.size.toString())
                         tAdapter.submitList(it.data)
                         progressBar(false)
                     }

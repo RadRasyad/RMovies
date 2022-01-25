@@ -4,7 +4,6 @@ import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "tvshow")
 data class TvShowsEntity(
@@ -29,9 +28,6 @@ data class TvShowsEntity(
     val posterPath: String?,
 
     @ColumnInfo(name = "backdropPath")
-    val backdropPath: String?,
-
-    @ColumnInfo(name = "favorite")
-    var favoriteShow: Boolean = false
+    val backdropPath: String?
 
 )

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.latihan.rmovies.R
 import com.latihan.rmovies.databinding.FragmentFavShowsBinding
+import com.latihan.rmovies.ui.adapter.FavTvShowsAdapter
 import com.latihan.rmovies.ui.adapter.MoviesAdapter
 import com.latihan.rmovies.ui.adapter.TvShowsAdapter
 import com.latihan.rmovies.ui.favorite.FavoriteViewModel
@@ -61,10 +62,10 @@ class FavShowsFragment : Fragment() {
 
     private fun getFavShow(sort: String) {
 
-        val fsAdapter = TvShowsAdapter()
+        val fsAdapter = FavTvShowsAdapter()
         val factory = ViewModelFactory.getInstance(requireActivity())
         favViewModel = ViewModelProvider(requireActivity(), factory!!)[FavoriteViewModel::class.java]
-        favViewModel.getFavShow(sort).observe(viewLifecycleOwner, Observer {
+        favViewModel.getFavShow(sort).observe(viewLifecycleOwner, {
             if (it!=null) {
                 fsAdapter.submitList(it)
                 progressBar(false)

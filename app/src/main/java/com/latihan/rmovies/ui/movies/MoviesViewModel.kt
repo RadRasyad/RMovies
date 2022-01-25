@@ -16,7 +16,13 @@ class MoviesViewModel(private val dataRepository: DataRepository) : ViewModel() 
 
     fun getDetailMovie(movieId: String): LiveData<Resource<MoviesEntity>> = dataRepository.getMovieDetail(movieId)
 
-    fun setFavMovies(moviesEntity: MoviesEntity,newState: Boolean) =
-        dataRepository.setFavMovies(moviesEntity, newState)
+    fun checkFavMovies(id: Int) =
+        dataRepository.checkFavMovies(id)
+
+    fun setFavMovies(moviesEntity: MoviesEntity) =
+        dataRepository.setFavMovies(moviesEntity)
+
+    fun deleteFavMovies(moviesEntity: MoviesEntity) =
+        dataRepository.delFavMovies(moviesEntity)
 
 }

@@ -5,22 +5,22 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "movie")
-data class MoviesEntity(
+@Entity(tableName = "favorite_show")
+data class FavoriteTvShowsEntity(
 
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "id")
     val id: Int,
 
-    @ColumnInfo(name = "title")
-    val title: String?,
+    @ColumnInfo(name = "name")
+    val name: String?,
+
+    @ColumnInfo(name = "firstAirDate")
+    val firstAirDate: String?,
 
     @ColumnInfo(name = "overview")
     val overview: String?,
-
-    @ColumnInfo(name = "releasedDate")
-    val releasedDate: String?,
 
     @ColumnInfo(name = "voteAverage")
     val voteAverage: Double?,
@@ -29,6 +29,6 @@ data class MoviesEntity(
     val posterPath: String?,
 
     @ColumnInfo(name = "backdropPath")
-    val backdropPath: String?
+    val backdropPath: String?,
 
 )

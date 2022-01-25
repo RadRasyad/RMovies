@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
 import androidx.sqlite.db.SimpleSQLiteQuery
+import com.latihan.rmovies.model.local.entity.FavoriteMoviesEntity
+import com.latihan.rmovies.model.local.entity.FavoriteTvShowsEntity
 import com.latihan.rmovies.model.local.entity.MoviesEntity
 import com.latihan.rmovies.model.local.entity.TvShowsEntity
 
@@ -23,9 +25,6 @@ interface CDao {
     @Update
     fun updateMovies(movies: MoviesEntity)
 
-    @RawQuery(observedEntities = [MoviesEntity::class])
-    fun getFavoriteMovies(query: SimpleSQLiteQuery): DataSource.Factory<Int, MoviesEntity>
-
 
     @Query("SELECT * FROM tvshow")
     fun getTvShows(): DataSource.Factory<Int, TvShowsEntity>
@@ -43,4 +42,36 @@ interface CDao {
     fun getFavoriteTvShow(query: SimpleSQLiteQuery): DataSource.Factory<Int, TvShowsEntity>
 
 
+    @RawQuery(observedEntities = [FavoriteMoviesEntity::class])
+    fun getFavMovies(query: SimpleSQLiteQuery): DataSource.Factory<Int, FavoriteMoviesEntity>
+
+    @Transaction
+    @Query("SELECT * FROM favorite_movies WHERE id = :movieId")
+    fun getFavMovieDetail(movieId: String): LiveData<FavoriteMoviesEntity>
+
+    @Query("SELECT count(*) FROM favorite_movies WHERE id = :id")
+    fun checkMovies(id: Int): Int
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertFavMovies(movies: FavoriteMoviesEntity)
+
+    @Delete
+    fun deleteFavMovies(movies: FavoriteMoviesEntity)
+
+
+    @RawQuery(observedEntities = [FavoriteTvShowsEntity::class])
+    fun getFavShow(query: SimpleSQLiteQuery): DataSource.Factory<Int, FavoriteTvShowsEntity>
+
+    @Transaction
+    @Query("SELECT * FROM favorite_show WHERE id = :movieId")
+    fun getFavShowDetail(movieId: String): LiveData<FavoriteTvShowsEntity>
+
+    @Query("SELECT count(*) FROM favorite_show WHERE id = :id")
+    fun checkShow(id: Int): Int
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertFavShow(movies: FavoriteTvShowsEntity)
+
+    @Delete
+    fun deleteFavShow(movies: FavoriteTvShowsEntity)
 }
