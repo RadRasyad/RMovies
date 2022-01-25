@@ -1,11 +1,14 @@
 package com.latihan.rmovies.ui.movies
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.latihan.rmovies.model.DataRepository
 import com.latihan.rmovies.model.local.entity.MoviesEntity
 import com.latihan.rmovies.utils.DummyData
+import com.latihan.rmovies.vo.Resource
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -19,7 +22,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class MoviesEntityViewModelTest {
 
-    /*
+
     private var viewModel: MoviesViewModel? = null
 
     @get:Rule
@@ -29,10 +32,13 @@ class MoviesEntityViewModelTest {
     private lateinit var dataRepository: DataRepository
 
     @Mock
-    private lateinit var observerDetail: Observer<MoviesEntity>
+    private lateinit var observerDetail: Observer<Resource<MoviesEntity>>
 
     @Mock
-    private lateinit var observer: Observer<List<MoviesEntity>>
+    private lateinit var observer: Observer<Resource<PagedList<MoviesEntity>>>
+
+    @Mock
+    private lateinit var pagedList: PagedList<MoviesEntity>
 
     @Before
     fun setUp() {
@@ -41,54 +47,41 @@ class MoviesEntityViewModelTest {
 
     @Test
     fun testGetMovies() {
-        val movies = MutableLiveData<List<MoviesEntity>>()
-        movies.value = DummyData.getDummyRemoteMovies()
+        val movies = Resource.success(pagedList)
+        `when`(movies.data?.size).thenReturn(20)
 
-        lenient().`when`(dataRepository.getMovies()).thenReturn(movies)
-        viewModel?.getListMovies()?.observeForever(observer)
-        assertNotNull(movies.value)
-        assertEquals(20, movies.value!!.size)
+        val allMovies = MutableLiveData<Resource<PagedList<MoviesEntity>>>()
+        allMovies.value = movies
+
+        lenient().`when`(dataRepository.getMovies()).thenReturn(allMovies)
+        val entity = viewModel?.getListMovies()?.value?.data
         verify(dataRepository).getMovies()
-        verify(observer).onChanged(movies.value)
+
+        assertNotNull(entity)
+        assertEquals(20, entity?.size)
+
+        viewModel?.getListMovies()?.observeForever(observer)
+        verify(observer).onChanged(movies)
     }
+
 
     @Test
     fun testGetDetailMovie() {
-        val movies = MutableLiveData<MoviesEntity>()
-        movies.value = DummyData.getDummyRemoteMovies()[0]
+        val expect = MutableLiveData<Resource<MoviesEntity>>()
+        val dummyData = DummyData.getDummyRemoteMovies()[0]
+        val id = DummyData.getDummyRemoteMovies()[0].id
+        expect.value = Resource.success(dummyData)
 
-        `when`(dataRepository.getMovieDetail(movies.value!!.id.toString())).thenReturn(movies)
-        viewModel?.getDetailMovie(movies.value?.id.toString())?.observeForever(observerDetail)
-        verify(dataRepository).getMovieDetail(movies.value?.id.toString())
-        verify(observerDetail).onChanged(movies.value)
+        `when`(dataRepository.getMovieDetail(id.toString())).thenReturn(expect)
+        viewModel?.getDetailMovie(id.toString())?.observeForever(observerDetail)
 
-        assertNotNull(movies.value)
+        verify(observerDetail).onChanged(expect.value)
 
-        assertEquals(
-            movies.value!!.id,
-            viewModel?.getDetailMovie(movies.value!!.id.toString())?.value?.id
-        )
-        assertEquals(
-            movies.value!!.title,
-            viewModel?.getDetailMovie(movies.value!!.id.toString())?.value?.title
-        )
-        assertEquals(
-            movies.value!!.overview,
-            viewModel?.getDetailMovie(movies.value!!.id.toString())?.value?.overview
-        )
-        assertEquals(
-            movies.value!!.releasedDate,
-            viewModel?.getDetailMovie(movies.value!!.id.toString())?.value?.releasedDate
-        )
-        assertEquals(
-            movies.value!!.posterPath,
-            viewModel?.getDetailMovie(movies.value!!.id.toString())?.value?.posterPath
-        )
-        assertEquals(
-            movies.value!!.backdropPath,
-            viewModel?.getDetailMovie(movies.value!!.id.toString())?.value?.backdropPath
-        )
+        val actual = viewModel?.getDetailMovie(id.toString())
+
+        assertEquals(expect.value, actual?.value)
+
     }
 
-     */
+
 }

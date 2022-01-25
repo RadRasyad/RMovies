@@ -13,13 +13,12 @@ import com.latihan.rmovies.model.remote.RemoteRepository
 import com.latihan.rmovies.repository.FakeDataRepository
 import com.latihan.rmovies.utils.*
 import com.nhaarman.mockitokotlin2.*
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import com.latihan.rmovies.vo.Resource
+import org.junit.Assert.*
 import org.mockito.Mockito.`when`
 
 class DataRepositoryTest {

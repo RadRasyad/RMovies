@@ -120,24 +120,7 @@ object DummyData {
                 "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
                 "/3G1Q5xF40HkUBJXxt2DQgQzKTp5.jpg",),
             FavoriteMoviesEntity(1,  "", "", "", 0.0, "", ""),
-            FavoriteMoviesEntity(2,  "", "", "", 0.0, "", ""),
-            FavoriteMoviesEntity(3,  "", "", "", 0.0, "",  ""),
-            FavoriteMoviesEntity(4,  "", "", "", 0.0, "", ""),
-            FavoriteMoviesEntity(5,  "", "", "", 0.0, "", ""),
-            FavoriteMoviesEntity(6,  "", "", "", 0.0, "", ""),
-            FavoriteMoviesEntity(7,  "", "", "", 0.0, "", ""),
-            FavoriteMoviesEntity(8,  "", "", "", 0.0, "", ""),
-            FavoriteMoviesEntity(9,  "", "", "", 0.0, "", ""),
-            FavoriteMoviesEntity(10,  "", "", "", 0.0, "", ""),
-            FavoriteMoviesEntity(11,  "", "", "", 0.0, "", ""),
-            FavoriteMoviesEntity(12,  "", "", "", 0.0, "", ""),
-            FavoriteMoviesEntity(13,  "", "", "", 0.0, "", ""),
-            FavoriteMoviesEntity(14,  "", "", "", 0.0, "", ""),
-            FavoriteMoviesEntity(15,  "", "", "", 0.0, "", ""),
-            FavoriteMoviesEntity(16,  "", "", "", 0.0, "", ""),
-            FavoriteMoviesEntity(17,  "", "", "", 0.0, "", ""),
-            FavoriteMoviesEntity(18,  "", "", "", 0.0, "", ""),
-            FavoriteMoviesEntity(19,  "", "", "", 0.0, "", "")
+
         )
 
 
@@ -155,24 +138,7 @@ object DummyData {
                 "/sWgBv7LV2PRoQgkxwlibdGXKz1S.jpg",
                 "/6POBWybSBDBKjSs1VAQcnQC1qyt.jpg"),
             FavoriteTvShowsEntity(1,  "", "", "", 0.0, "", ""),
-            FavoriteTvShowsEntity(2,  "", "", "", 0.0, "", ""),
-            FavoriteTvShowsEntity(3,  "", "", "", 0.0, "",  ""),
-            FavoriteTvShowsEntity(4,  "", "", "", 0.0, "", ""),
-            FavoriteTvShowsEntity(5,  "", "", "", 0.0, "", ""),
-            FavoriteTvShowsEntity(6,  "", "", "", 0.0, "", ""),
-            FavoriteTvShowsEntity(7,  "", "", "", 0.0, "", ""),
-            FavoriteTvShowsEntity(8,  "", "", "", 0.0, "", ""),
-            FavoriteTvShowsEntity(9,  "", "", "", 0.0, "", ""),
-            FavoriteTvShowsEntity(10,  "", "", "", 0.0, "", ""),
-            FavoriteTvShowsEntity(11,  "", "", "", 0.0, "", ""),
-            FavoriteTvShowsEntity(12,  "", "", "", 0.0, "", ""),
-            FavoriteTvShowsEntity(13,  "", "", "", 0.0, "", ""),
-            FavoriteTvShowsEntity(14,  "", "", "", 0.0, "", ""),
-            FavoriteTvShowsEntity(15,  "", "", "", 0.0, "", ""),
-            FavoriteTvShowsEntity(16,  "", "", "", 0.0, "", ""),
-            FavoriteTvShowsEntity(17,  "", "", "", 0.0, "", ""),
-            FavoriteTvShowsEntity(18,  "", "", "", 0.0, "", ""),
-            FavoriteTvShowsEntity(19,  "", "", "", 0.0, "", "")
+
         )
 
 }
