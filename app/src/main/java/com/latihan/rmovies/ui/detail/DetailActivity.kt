@@ -7,10 +7,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
-import android.widget.Toast.LENGTH_LONG
 import android.widget.Toast.LENGTH_SHORT
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.latihan.rmovies.R
 import com.latihan.rmovies.databinding.ActivityDetailBinding
@@ -75,8 +73,8 @@ class DetailActivity : AppCompatActivity() {
 
         moviesViewModel.getDetailMovie(movie).observe(this, {
             progressBar(true)
-            if (it.data!=null)
-            loadDataMovie(it.data)
+            if (it.data != null)
+                loadDataMovie(it.data)
             progressBar(false)
         })
 
@@ -85,7 +83,7 @@ class DetailActivity : AppCompatActivity() {
     private fun getDetailShow(shows: String) {
 
         val factory = ViewModelFactory.getInstance(this)
-        showsViewModel = ViewModelProviders.of(this, factory)[TvShowsViewModel::class.java]
+        showsViewModel = ViewModelProvider(this, factory!!)[TvShowsViewModel::class.java]
 
         showsViewModel.getDetailShow(shows).observe(this, {
             progressBar(true)
@@ -100,7 +98,7 @@ class DetailActivity : AppCompatActivity() {
 
         favoriteViewModel.getFavMDetail(movie).observe(this, {
             progressBar(true)
-            if (it!=null)
+            if (it != null)
                 loadDataFavMovie(it)
             progressBar(false)
         })
@@ -119,7 +117,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun loadDataMovie(movie: MoviesEntity?) {
-        if (movie!=null) {
+        if (movie != null) {
             checkFavMovies(movie.id)
             binding.apply {
                 mtitleValue.text = movie.title ?: "-"
@@ -127,12 +125,12 @@ class DetailActivity : AppCompatActivity() {
                 mstarValue.text = movie.voteAverage.toString()
                 moverviewValue.text = movie.overview ?: "No overview yet"
                 if (movie.backdropPath == null) {
-                    mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+                    mbackdropPoster.loadImage(imgUrl + "${movie.posterPath}")
                 }
-                mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${movie.backdropPath}")
-                mivPoster.loadImage("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+                mbackdropPoster.loadImage(imgUrl + "${movie.backdropPath}")
+                mivPoster.loadImage(imgUrl + "${movie.posterPath}")
 
-                fabFavorite.setOnClickListener{
+                fabFavorite.setOnClickListener {
                     setFavoriteMovie(movie, isFavorite)
                     checkFavMovies(movie.id)
                 }
@@ -150,11 +148,11 @@ class DetailActivity : AppCompatActivity() {
                 mstarValue.text = shows.voteAverage.toString()
                 moverviewValue.text = shows.overview ?: "No overview yet"
                 if (shows.backdropPath != null) {
-                    binding.mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${shows.backdropPath}")
+                    binding.mbackdropPoster.loadImage(imgUrl + "${shows.backdropPath}")
                 } else {
-                    binding.mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${shows.posterPath}")
+                    binding.mbackdropPoster.loadImage(imgUrl + "${shows.posterPath}")
                 }
-                binding.mivPoster.loadImage("https://image.tmdb.org/t/p/w500${shows.posterPath}")
+                binding.mivPoster.loadImage(imgUrl + "${shows.posterPath}")
                 fabFavorite.setOnClickListener {
                     setFavoriteShow(shows, isFavorite)
                     checkFavShows(shows.id)
@@ -166,7 +164,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun loadDataFavMovie(movie: FavoriteMoviesEntity?) {
-        if (movie!=null) {
+        if (movie != null) {
             checkFavMovies(movie.id)
             binding.apply {
                 mtitleValue.text = movie.title ?: "-"
@@ -174,12 +172,12 @@ class DetailActivity : AppCompatActivity() {
                 mstarValue.text = movie.voteAverage.toString()
                 moverviewValue.text = movie.overview ?: "No overview yet"
                 if (movie.backdropPath == null) {
-                    mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+                    mbackdropPoster.loadImage(imgUrl + "${movie.posterPath}")
                 }
-                mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${movie.backdropPath}")
-                mivPoster.loadImage("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+                mbackdropPoster.loadImage(imgUrl + "${movie.backdropPath}")
+                mivPoster.loadImage(imgUrl + "${movie.posterPath}")
 
-                fabFavorite.setOnClickListener{
+                fabFavorite.setOnClickListener {
                     setFavMovie(movie, isFavorite)
                     checkFavMovies(movie.id)
                 }
@@ -196,11 +194,11 @@ class DetailActivity : AppCompatActivity() {
                 mstarValue.text = shows.voteAverage.toString()
                 moverviewValue.text = shows.overview ?: "No overview yet"
                 if (shows.backdropPath != null) {
-                    binding.mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${shows.backdropPath}")
+                    binding.mbackdropPoster.loadImage(imgUrl + "${shows.backdropPath}")
                 } else {
-                    binding.mbackdropPoster.loadImage("https://image.tmdb.org/t/p/w500${shows.posterPath}")
+                    binding.mbackdropPoster.loadImage(imgUrl + "${shows.posterPath}")
                 }
-                binding.mivPoster.loadImage("https://image.tmdb.org/t/p/w500${shows.posterPath}")
+                binding.mivPoster.loadImage(imgUrl + "${shows.posterPath}")
                 fabFavorite.setOnClickListener {
                     setFavShow(shows, isFavorite)
                     checkFavShows(shows.id)
@@ -217,11 +215,10 @@ class DetailActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             val found = moviesViewModel.checkFavMovies(id)
-            if (found>0) {
+            if (found > 0) {
                 isFavorite = true
                 setStatusFavorite(isFavorite)
-            }
-            else {
+            } else {
                 isFavorite = false
                 setStatusFavorite(isFavorite)
             }
@@ -257,11 +254,10 @@ class DetailActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             val found = showsViewModel.checkFavShow(id)
-            if (found>0) {
+            if (found > 0) {
                 isFavorite = true
                 setStatusFavorite(isFavorite)
-            }
-            else {
+            } else {
                 isFavorite = false
                 setStatusFavorite(isFavorite)
             }
@@ -271,7 +267,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun setFavoriteShow(shows: TvShowsEntity, state: Boolean) {
         val factory = ViewModelFactory.getInstance(this)
-        showsViewModel = ViewModelProviders.of(this, factory)[TvShowsViewModel::class.java]
+        showsViewModel = ViewModelProvider(this, factory!!)[TvShowsViewModel::class.java]
         if (!state) {
             showsViewModel.setFavShow(shows)
             Toast.makeText(this, "Favorited", LENGTH_SHORT).show()
@@ -302,7 +298,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setStatusFavorite(isFavorite: Boolean) {
-        if (isFavorite==true) {
+        if (isFavorite == true) {
             binding.fabFavorite.setImageResource(R.drawable.ic_heart_fill)
         } else {
             binding.fabFavorite.setImageResource(R.drawable.ic_heart_add_line_)
@@ -332,6 +328,8 @@ class DetailActivity : AppCompatActivity() {
 
 
     companion object {
+        const val imgUrl = "https://image.tmdb.org/t/p/w500"
+
         const val EXTRA_MOVIE = "extra_movie"
         const val EXTRA_SHOW = "extra_show"
         const val EXTRA_FAV_MOVIE = "extra_fav_movie"

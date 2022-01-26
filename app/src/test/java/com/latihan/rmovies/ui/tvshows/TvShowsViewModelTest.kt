@@ -6,10 +6,8 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.latihan.rmovies.model.DataRepository
 import com.latihan.rmovies.model.local.entity.FavoriteTvShowsEntity
-import com.latihan.rmovies.model.local.entity.MoviesEntity
 import com.latihan.rmovies.model.local.entity.TvShowsEntity
 import com.latihan.rmovies.ui.favorite.FavoriteViewModel
-
 import com.latihan.rmovies.utils.DummyData
 import com.latihan.rmovies.utils.SortUtils
 import com.latihan.rmovies.vo.Resource
@@ -44,6 +42,9 @@ class TvShowsViewModelTest : TestCase() {
 
     @Mock
     private lateinit var pagedList: PagedList<TvShowsEntity>
+
+    @Mock
+    private lateinit var favPagedList: PagedList<FavoriteTvShowsEntity>
 
     @Before
     public override fun setUp() {
@@ -102,6 +103,7 @@ class TvShowsViewModelTest : TestCase() {
 
     @Test
     fun testSetFavShow() {
+        val sort = SortUtils.DEFAULT
         val dummyFav = TvShowsEntity(
             77169,
             "Cobra Kai",
@@ -115,12 +117,44 @@ class TvShowsViewModelTest : TestCase() {
             "/6POBWybSBDBKjSs1VAQcnQC1qyt.jpg")
 
         viewModel?.setFavShow(dummyFav)
+        val show = favPagedList
+        `when`(show.size).thenReturn(1)
 
-        val sort = SortUtils.DEFAULT
+        val allShow = MutableLiveData<PagedList<FavoriteTvShowsEntity>>()
+        allShow.value = show
+        lenient().`when`(dataRepository.getFavShows(sort)).thenReturn(allShow)
+
         val actual = favViewModel?.getFavShow(sort)?.value
 
         assertEquals(1, actual?.size)
+    }
 
+    @Test
+    fun testDelFavShow() {
+        val sort = SortUtils.DEFAULT
+        val dummyFav = TvShowsEntity(
+            77169,
+            "Cobra Kai",
+            "2018-05-02",
+            "This Karate Kid sequel series picks up 30 years after the events of the 1984 " +
+                    "All Valley Karate Tournament and finds Johnny Lawrence on the hunt for redemption by reopening " +
+                    "the infamous Cobra Kai karate dojo. This reignites his old rivalry with the successful Daniel LaRusso, " +
+                    "who has been working to maintain the balance in his life without mentor Mr. Miyagi.",
+            8.1,
+            "/sWgBv7LV2PRoQgkxwlibdGXKz1S.jpg",
+            "/6POBWybSBDBKjSs1VAQcnQC1qyt.jpg")
+
+        viewModel?.deleteFavShow(dummyFav)
+        val show = favPagedList
+        `when`(show.size).thenReturn(0)
+
+        val allShow = MutableLiveData<PagedList<FavoriteTvShowsEntity>>()
+        allShow.value = show
+        lenient().`when`(dataRepository.getFavShows(sort)).thenReturn(allShow)
+
+        val actual = favViewModel?.getFavShow(sort)?.value
+
+        assertEquals(0, actual?.size)
 
     }
 

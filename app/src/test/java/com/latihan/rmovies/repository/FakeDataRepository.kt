@@ -1,10 +1,8 @@
 package com.latihan.rmovies.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.latihan.rmovies.model.DataRepository
 import com.latihan.rmovies.model.NetworkBoundResource
 import com.latihan.rmovies.model.local.LocalDataSource
 import com.latihan.rmovies.model.local.entity.FavoriteMoviesEntity

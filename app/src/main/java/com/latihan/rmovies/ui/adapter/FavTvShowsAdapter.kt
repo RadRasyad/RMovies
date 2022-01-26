@@ -35,7 +35,7 @@ class FavTvShowsAdapter : PagedListAdapter<FavoriteTvShowsEntity, FavTvShowsAdap
             binding.tvTitle.text = listShows.name
             binding.tvStarRate.text = listShows.voteAverage.toString()
             Glide.with(itemView.context)
-                .load("https://image.tmdb.org/t/p/w500${listShows.posterPath}")
+                .load(imgUrl+"${listShows.posterPath}")
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.ic_error)
                 .into(poster)
@@ -48,6 +48,7 @@ class FavTvShowsAdapter : PagedListAdapter<FavoriteTvShowsEntity, FavTvShowsAdap
     }
 
     companion object {
+        const val imgUrl = "https://image.tmdb.org/t/p/w500"
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FavoriteTvShowsEntity>() {
             override fun areItemsTheSame(oldItem: FavoriteTvShowsEntity, newItem: FavoriteTvShowsEntity): Boolean {
                 return oldItem.id == newItem.id

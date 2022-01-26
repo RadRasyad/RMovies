@@ -5,16 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
-import com.latihan.rmovies.R
 import com.latihan.rmovies.databinding.FragmentFavShowsBinding
 import com.latihan.rmovies.ui.adapter.FavTvShowsAdapter
-import com.latihan.rmovies.ui.adapter.MoviesAdapter
-import com.latihan.rmovies.ui.adapter.TvShowsAdapter
 import com.latihan.rmovies.ui.favorite.FavoriteViewModel
 import com.latihan.rmovies.utils.SortUtils
 import com.latihan.rmovies.utils.ViewModelFactory

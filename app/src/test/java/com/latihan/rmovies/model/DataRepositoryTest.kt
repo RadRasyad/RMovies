@@ -3,7 +3,6 @@ package com.latihan.rmovies.model
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
-import androidx.paging.PagedList
 import com.latihan.rmovies.model.local.LocalDataSource
 import com.latihan.rmovies.model.local.entity.FavoriteMoviesEntity
 import com.latihan.rmovies.model.local.entity.FavoriteTvShowsEntity
@@ -15,7 +14,6 @@ import com.latihan.rmovies.utils.*
 import com.nhaarman.mockitokotlin2.*
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import com.latihan.rmovies.vo.Resource
 import org.junit.Assert.*

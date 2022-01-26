@@ -11,7 +11,6 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.latihan.rmovies.R
-import com.latihan.rmovies.utils.DummyData
 import com.latihan.rmovies.utils.EspressoIdlingResource
 import junit.framework.TestCase
 import org.junit.After
@@ -62,6 +61,7 @@ class MainActivityTest : TestCase() {
         onView(withId(R.id.moverview_value)).check(matches(isDisplayed()))
         onView(withId(R.id.miv_poster)).check(matches(isDisplayed()))
         onView(withId(R.id.mbackdrop_poster)).check(matches(isDisplayed()))
+        onView(withId(R.id.fab_favorite)).check(matches(isDisplayed()))
 
     }
 
@@ -92,6 +92,7 @@ class MainActivityTest : TestCase() {
         onView(withId(R.id.moverview_value)).check(matches(isDisplayed()))
         onView(withId(R.id.miv_poster)).check(matches(isDisplayed()))
         onView(withId(R.id.mbackdrop_poster)).check(matches(isDisplayed()))
+        onView(withId(R.id.fab_favorite)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -102,6 +103,7 @@ class MainActivityTest : TestCase() {
                 ViewActions.click()
             )
         )
+        onView(withId(R.id.fab_favorite)).check(matches(isDisplayed()))
         onView(withId(R.id.fab_favorite)).perform(ViewActions.click())
     }
 
@@ -114,6 +116,7 @@ class MainActivityTest : TestCase() {
                 ViewActions.click()
             )
         )
+        onView(withId(R.id.fab_favorite)).check(matches(isDisplayed()))
         onView(withId(R.id.fab_favorite)).perform(ViewActions.click())
     }
 

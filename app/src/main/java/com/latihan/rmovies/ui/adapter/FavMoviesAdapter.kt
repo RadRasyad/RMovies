@@ -10,22 +10,9 @@ import com.bumptech.glide.Glide
 import com.latihan.rmovies.R
 import com.latihan.rmovies.databinding.ItemRowBinding
 import com.latihan.rmovies.model.local.entity.FavoriteMoviesEntity
-import com.latihan.rmovies.model.local.entity.MoviesEntity
 import com.latihan.rmovies.ui.detail.DetailActivity
 
 class FavMoviesAdapter : PagedListAdapter<FavoriteMoviesEntity, FavMoviesAdapter.ViewHolder>(DIFF_CALLBACK) {
-
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FavoriteMoviesEntity>() {
-            override fun areItemsTheSame(oldItem: FavoriteMoviesEntity, newItem: FavoriteMoviesEntity): Boolean {
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(oldItem: FavoriteMoviesEntity, newItem: FavoriteMoviesEntity): Boolean {
-                return oldItem == newItem
-            }
-        }
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -47,7 +34,7 @@ class FavMoviesAdapter : PagedListAdapter<FavoriteMoviesEntity, FavMoviesAdapter
             binding.tvTitle.text = listMovies?.title
             binding.tvStarRate.text = listMovies?.voteAverage.toString()
             Glide.with(itemView.context)
-                .load("https://image.tmdb.org/t/p/w500${listMovies?.posterPath}")
+                .load(imgUrl+"${listMovies?.posterPath}")
                 .placeholder(R.color.placeholder)
                 .error(R.drawable.ic_error)
                 .into(poster)
@@ -56,6 +43,19 @@ class FavMoviesAdapter : PagedListAdapter<FavoriteMoviesEntity, FavMoviesAdapter
                 val intent = Intent(itemView.context, DetailActivity::class.java)
                 intent.putExtra(DetailActivity.EXTRA_FAV_MOVIE, listMovies?.id.toString())
                 itemView.context.startActivity(intent)
+            }
+        }
+    }
+
+    companion object {
+        const val imgUrl = "https://image.tmdb.org/t/p/w500"
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FavoriteMoviesEntity>() {
+            override fun areItemsTheSame(oldItem: FavoriteMoviesEntity, newItem: FavoriteMoviesEntity): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: FavoriteMoviesEntity, newItem: FavoriteMoviesEntity): Boolean {
+                return oldItem == newItem
             }
         }
     }
